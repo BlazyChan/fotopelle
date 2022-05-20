@@ -5,4 +5,17 @@
 {% endblock %}
 
 {% block body %}
+
+<div class="container">
+        <h1>Reģistrēties</h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{form}}
+
+            <button type="submit" class="btn btn-primary">Reģistrēties</button>
+        </form>
+    </div>
+
 {% endblock %}

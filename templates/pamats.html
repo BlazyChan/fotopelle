@@ -18,6 +18,30 @@
 
 </head>
 <body>
+<!-- Navigācijas josla -->
+<nav class="navbar navbar-expand-lg sticky-top bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'sākumlapa' %}">FotoPelle</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigācijas_joslas_pārslēdzējs" aria-controls="navigācijas_joslas_pārslēdzējs" aria-expanded="false" aria-label="Pārslēgt navigātoru">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navigācijas_joslas_pārslēdzējs">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'sākumlapa' %}">Sākums</a></li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link {% if request.path == '/pasutit/' %}active{% endif %}" href="{% url 'pasūtīt' %}">Pasūtīt</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == '/izrakstities/' %}active{% endif %}" href="{% url 'izrakstīties' %}">Izrakstīties</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link {% if request.path == '/pieslegties/' %}active{% endif %}" href="{% url 'pieslēgties' %}">Pieslēgties</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == '/registreties/' %}active{% endif %}" href="{% url 'reģistrēties' %}">Reģistrēties</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
 
 {% block body %}
 {% endblock %}

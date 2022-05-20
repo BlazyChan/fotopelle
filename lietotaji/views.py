@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from .forms import RegistracijasVeidlapa
 
 
 # Pieslēgšanās (ar visu autentifikāciju):
@@ -12,21 +13,35 @@ def pieslegties(request):
         if lietotajs is not None:
             login(request, lietotajs)
             # Veiksmīgas pieslēgšanās gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
-            #messages.success("Laupni lūdzam {}!".format(lietotajs.vards))
-            return render(request, 'pasutit.html', {})
+            messages.success(request, "Laipni lūdzam {}!".format(lietotajs.vards))
+            return redirect('sākumlapa')
         else:
             # Neveiksmīgas pieslēgšanās gadījumā izvada kļūdu:
             messages.info(request, "Epasts vai parole tika ievadīta nepareizi, lūdzu mēģiniet vēlreiz!")
-            return render(request, 'pieslegties.html', {})
+            return redirect('pieslēgties')
     else:
         return render(request, 'pieslegties.html', {})
 
 
 # Reģistrācija:
 def registreties(request):
-    return render(request, 'registreties.html', {})
+    if request.method == "POST":
+        form = RegistracijasVeidlapa(request.POST)
+        if form.is_valid():
+            form.save()
+            epasts = form.cleaned_data['epasts']
+            parole = form.cleaned_data['password1']
+            lietotajs = authenticate(request, username=epasts, password=parole)
+            login(request, lietotajs)
+            # Veiksmīgas reģistrācijas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
+            messages.success(request, "Jūsu profils tika veiksmīgi izveidots!")
+            return redirect('sākumlapa')
+    else:
+        form = RegistracijasVeidlapa()
+    return render(request, 'registreties.html', {"form": form})
 
 
 # Izrakstīšanās:
 def izrakstities(request):
-    return render(request, 'izrakstities.html', {})
+    logout(request)
+    return redirect('/')
