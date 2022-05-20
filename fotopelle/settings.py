@@ -26,12 +26,17 @@ ALLOWED_HOSTS = []
 # Lietojumprogrammas definīcija:
 
 INSTALLED_APPS = [
+    # Django lietotnes:
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Paštaisītās lietotnes:
+    'pakalpojumi',
+    'lietotaji',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +129,6 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Lietotāja modelis:
+AUTH_USER_MODEL = 'lietotaji.Lietotajs'
