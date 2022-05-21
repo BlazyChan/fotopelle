@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internacionalizācija:
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'lv-lav'
+LANGUAGE_CODE = 'lv'
 
 TIME_ZONE = 'Europe/Riga'
 
@@ -123,6 +123,7 @@ STATICFILES_DIRS = [
 ]
 
 # Vieta lietotāja augšupielādētajiem failiem:
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Noklusētais primāro atslēgu lauku veids:

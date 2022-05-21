@@ -2,6 +2,9 @@
 
 {% block head %}
 <title>Pieslēgties</title>
+
+<!-- Font Awesome ikonas -->
+<script src="https://kit.fontawesome.com/951a095c54.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block body %}
@@ -11,14 +14,23 @@
 
         <form method="post">
             {% csrf_token %}
+
             <div class="mb-3">
                 <label for="epasts" class="form-label">Epasts</label>
                 <input type="email" class="form-control" id="epasts" name="epasts">
             </div>
-            <div class="mb-3">
-                <label for="parole" class="form-label">Parole</label>
-                <input type="password" class="form-control" id="parole" name="parole">
+
+            <label for="parole" class="form-label">Parole</label>
+            <div class="mb-3 input-group">
+                <input data-toggle="password" type="password" class="form-control" id="parole" name="parole">
+
+                <!-- Parādīt un paslēpt paroli funkcijas  -->
+                <div class="input-group-text input-group-prepend">
+                    <a id="pārslēgt-ikonu"><i id="ikona" class="fa-solid fa-eye-slash fa-fw"></i></a>
+                </div>
+
             </div>
+
             <div class="container">
                 {% if messages%}
                     {% for message in messages %}
@@ -32,8 +44,40 @@
                     {% endfor %}
                 {% endif %}
             </div>
+
             <button type="submit" class="btn btn-primary">Pieslēgties</button>
+
         </form>
     </div>
+
+    <!-- jQuery Core -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Parādīt un paslēpt paroli funkcija -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#pārslēgt-ikonu").click(function(){
+
+                var ikona = document.getElementById("ikona");
+                if (ikona.className==="fa-solid fa-eye-slash fa-fw"){
+                    ikona.setAttribute('class', "fa-solid fa-eye fa-fw");
+                }
+                else{
+                    ikona.setAttribute('class', "fa-solid fa-eye-slash fa-fw");
+                }
+
+                var parole = $("#parole");
+                if (parole.attr("type")==="password"){
+                    parole.attr("type", "text");
+                }
+                else{
+                    parole.attr("type", "password");
+                }
+
+            });
+
+        });
+    </script>
 
 {% endblock %}
