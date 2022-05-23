@@ -17,22 +17,27 @@
     {% endblock %}
 
 </head>
-<body>
+<body onload="ProfilaPlatums()">
 <!-- Navigācijas josla -->
 <nav class="navbar navbar-expand-lg sticky-top bg-light">
     <div class="container-fluid">
+
         <a class="navbar-brand" href="{% url 'sākumlapa' %}">FotoPelle</a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigācijas_joslas_pārslēdzējs" aria-controls="navigācijas_joslas_pārslēdzējs" aria-expanded="false" aria-label="Pārslēgt navigātoru">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navigācijas_joslas_pārslēdzējs">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <div class="collapse navbar-collapse justify-content-center" id="navigācijas_joslas_pārslēdzējs">
+            <ul class="navbar-nav">
 
                 <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'sākumlapa' %}">Sākums</a></li>
 
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link {% if request.path == '/pasutit/' %}active{% endif %}" href="{% url 'pasūtīt' %}">Pasūtīt</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == '/rediget_profilu/' %}active{% endif %}" href="{% url 'rediģēt profilu' %}">Rediģēt profilu</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.path == '/izrakstities/' %}active{% endif %}" href="{% url 'izrakstīties' %}">Izrakstīties</a></li>
+
                 {% else %}
                 <li class="nav-item"><a class="nav-link {% if request.path == '/pieslegties/' %}active{% endif %}" href="{% url 'pieslēgties' %}">Pieslēgties</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.path == '/registreties/' %}active{% endif %}" href="{% url 'reģistrēties' %}">Reģistrēties</a></li>
@@ -40,14 +45,47 @@
 
             </ul>
         </div>
+
+        {% if user.is_authenticated %}
+        <img id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
+        <div id="nav-profila-vards">
+            <p class="navbar-text">{{ user.vards }}</p>
+        </div>
+        {% endif %}
+
     </div>
 </nav>
 
 {% block body %}
 {% endblock %}
 
+<!-- Kājene -->
+<footer>
+</footer>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+<!-- Skripts, lai dabūtu profila sadaļas platumu navigācijas joslā: -->
+<script>
+    function ProfilaPlatums() {
+        try {
+            if (document.getElementById("nav-profila-vards") != "null") {
+                var profila_varda_platums = document.getElementById("nav-profila-vards").offsetWidth;
+                if (profila_varda_platums != 0) {
+                    profila_varda_platums = profila_varda_platums - 40
+                    document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left:" + profila_varda_platums + "px; padding-right: 0;";
+                }
+                else {
+                    document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left: 40px;";
+                }
+            }
+        }
+        catch (kluda) {}
+    }
+
+    window.addEventListener("resize", ProfilaPlatums);
+</script>
 
 </body>
 </html>

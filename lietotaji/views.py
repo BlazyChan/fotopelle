@@ -45,3 +45,8 @@ def registreties(request):
 def izrakstities(request):
     logout(request)
     return redirect('/')
+
+
+# Profila rediģēšana:
+def rediget_profilu(request):
+    return render(request, 'rediget_profilu.html', {})
