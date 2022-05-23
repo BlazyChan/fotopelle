@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, login, logout
-from .forms import RegistracijasVeidlapa
+from .forms import RegistracijasVeidlapa, ProfilaRedigesanasVeidlapa
+from django.views.generic.edit import UpdateView, CreateView
+from .models import Lietotajs
+from django.contrib.auth.forms import UserChangeForm
 
 
 # Pieslēgšanās (ar visu autentifikāciju):
@@ -48,5 +52,12 @@ def izrakstities(request):
 
 
 # Profila rediģēšana:
-def rediget_profilu(request):
-    return render(request, 'rediget_profilu.html', {})
+class RedigetProfilu(SuccessMessageMixin, UpdateView):
+    form_class = ProfilaRedigesanasVeidlapa
+    model = Lietotajs
+    template_name = "rediget_profilu.html"
+    success_url = "/rediget_profilu/"
+    success_message = "Jūsu profila izmaiņas tika veiksmīgi saglabātas!"
+
+    def get_object(self):
+        return self.request.user

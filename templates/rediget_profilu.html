@@ -7,7 +7,54 @@
 {% block body %}
 
     <div class="container">
+        {% if messages%}
+            {% for message in messages %}
+                <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Veiksmīgs">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Aizvērt"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <h1>Rediģēt profilu</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="{{ form.epasts.id_for_label }}" class="form-label">Epasts</label>
+                {{ form.epasts }}
+                {{ form.errors.epasts }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.vards.id_for_label }}" class="form-label">Vārds</label>
+                {{ form.vards }}
+                {{ form.errors.vards }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.uzvards.id_for_label }}" class="form-label">Uzvārds</label>
+                {{ form.uzvards }}
+                {{ form.errors.uzvards }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.telefona_numurs.id_for_label }}" class="form-label">Telefona numurs</label>
+                {{ form.telefona_numurs }}
+                {{ form.errors.telefona_numurs }}
+            </div>
+
+            <img width="20%" border="5px solid" src="{{ user.profila_bilde.url }}" alt="Profila bilde">
+            <div class="mb-3">
+                <label for="{{ form.profila_bilde.id_for_label }}" class="form-label">Profila bilde</label>
+                {{ form.profila_bilde }}
+                {{ form.errors.profila_bilde }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Saglabāt izmaiņas</button>
+        </form>
     </div>
 
 {% endblock %}

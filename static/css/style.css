@@ -11,6 +11,7 @@
 
 #navigācijas_joslas_pārslēdzējs {
     padding-right: 82px;
+    padding-left: 0;
 }
 
 @media (min-width: 992px) {
