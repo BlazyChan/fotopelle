@@ -71,7 +71,10 @@ class Lietotajs(AbstractBaseUser):
 
 # Fotogrāfa (lietotājs ar papildus lauku un citām atļaujām) modelis:
 class Fotografs(models.Model):
-    lietotajs = models.OneToOneField(Lietotajs, on_delete=models.CASCADE, primary_key=True)
-
+    lietotajs = models.OneToOneField(Lietotajs, to_field="epasts", on_delete=models.CASCADE, primary_key=True)
     # Papildus lauki fotogrāfam:
     apraksts = models.TextField()
+
+    # Tas ko izvada, ja izsauc šī moduļa instanci:
+    def __str__(self):
+        return self.lietotajs
