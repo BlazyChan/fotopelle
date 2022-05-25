@@ -1,0 +1,28 @@
+{% extends 'pamats.html' %}
+
+{% block head %}
+<title>Pasūtījumi</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h1>Mani pasūtījumi</h1>
+
+        {% for pasutijums in pasutijumi %}
+            <p>
+                {{ pasutijums.id }}.
+                {{ pasutijums.aktivs }}
+                {{ pasutijums.pasutijuma_veiktais_datums }}
+                {{ pasutijums.pasutijuma_datums }}
+                {{ pasutijums.apraksts }}
+                {{ pasutijums.kopeja_cena }}
+                {{ pasutijums.lietotajs }}
+                {{ pasutijums.pakalpojuma_veids }}
+            </p>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

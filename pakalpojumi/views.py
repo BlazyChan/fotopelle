@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PasutijumaVeidlapa
 from django.contrib import messages
-from .models import PakalpojumaVeids
+from .models import PakalpojumaVeids, Pasutijums
 
 
 # Sākumlapa (pirmā lapa, ko redz atverot mājaslapu):
@@ -29,4 +29,9 @@ def pasutit(request):
 
 # Lapa, kurā parasts lietotājs var apskatīt savus vai fotogrāfs var apskatīt visus pasūtījumus:
 def pasutijumi(request):
-    return render(request, 'pasutijumi.html', {})
+    queryset = Pasutijums.objects.all()
+    pasutijumi = {
+        "pasutijumi": queryset
+    }
+
+    return render(request, 'pasutijumi.html', pasutijumi)

@@ -24,7 +24,9 @@ class Pasutijums(models.Model):
     # Automātiski izveidots datums:
     pasutijuma_veiktais_datums = models.DateTimeField(auto_now_add=True)
 
-    pasutijuma_datums = models.DateTimeField()
+    pasutijuma_datums = models.DateField()
+    pasutijuma_laiks = models.TimeField()
+
     apraksts = models.TextField(null=True)
     # Jāaprēķina:
     kopeja_cena = models.FloatField(null=True)
