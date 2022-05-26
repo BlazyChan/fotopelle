@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import PasutijumaVeidlapa
 from django.contrib import messages
 from .models import PakalpojumaVeids, Pasutijums
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
 
 # Sākumlapa (pirmā lapa, ko redz atverot mājaslapu):
@@ -24,14 +26,15 @@ def pasutit(request):
             return redirect('/pasutit/')
     else:
         form = PasutijumaVeidlapa()
-    return render(request, 'pasutit.html', {"form": form})
+
+    vaicajums = PakalpojumaVeids.objects.filter()
+
+    # Pārveido modeli par JSON simbolu virkni:
+    vaicajums = serializers.serialize("json", vaicajums, cls=DjangoJSONEncoder)
+    return render(request, 'pasutit.html', {"form": form, "pakalpojumu_apraksti": vaicajums})
 
 
 # Lapa, kurā parasts lietotājs var apskatīt savus vai fotogrāfs var apskatīt visus pasūtījumus:
 def pasutijumi(request):
-    queryset = Pasutijums.objects.all()
-    pasutijumi = {
-        "pasutijumi": queryset
-    }
-
-    return render(request, 'pasutijumi.html', pasutijumi)
+    vaicajums = Pasutijums.objects.all()
+    return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums})

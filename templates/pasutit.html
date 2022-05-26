@@ -43,6 +43,13 @@
                 {{ form.errors.pakalpojuma_veids }}
             </div>
 
+            <div>
+                <p id="pakalpojuma_apraksta_virsraksts"></p>
+                <p id="pakalpojuma_apraksts"></p>
+                <p id="pakalpojuma_cenas_virsraksts"></p>
+                <p id="pakalpojuma_cena"></p>
+            </div>
+
             <div class="mb-3">
                 <label for="{{ form.kopeja_cena.id_for_label }}" class="form-label">Kopējā cena</label>
                 {{ form.kopeja_cena }}
@@ -61,6 +68,39 @@
 
     </div>
 
+    <!--  Priekš pakalpojuma apraksta un galerijas (izsauc funkciju, kad pārmaina izvēlnes vērtību):  -->
+    <script>
+        function PakalpojumaApraksts() {
+            var pakalpojuma_veids = document.getElementById("id_pakalpojuma_veids").value;
 
+            if (pakalpojuma_veids == "") {
+                apraksts = "";
+                cenas_virsraksts = "";
+                cena = "";
+            }
+            else {
+                var pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
+
+                pakalpojumu_apraksti.forEach(function(pakalpojuma_apraksts) {
+                    if (pakalpojuma_apraksts.pk == pakalpojuma_veids) {
+                        apraksts = pakalpojuma_apraksts.fields.apraksts;
+                        cena = pakalpojuma_apraksts.fields.cena;
+                    }
+                });
+
+                var pedejais_burts = pakalpojuma_veids.charAt(pakalpojuma_veids.length - 1);
+                if (pedejais_burts != "s") {
+                    pakalpojuma_veids = pakalpojuma_veids + "s";
+                }
+                pakalpojuma_veids = pakalpojuma_veids + " apraksts:";
+                cenas_virsraksts = "Cena:";
+            }
+
+            document.getElementById("pakalpojuma_apraksta_virsraksts").innerHTML = pakalpojuma_veids;
+            document.getElementById("pakalpojuma_apraksts").innerHTML = apraksts;
+            document.getElementById("pakalpojuma_cenas_virsraksts").innerHTML = cenas_virsraksts;
+            document.getElementById("pakalpojuma_cena").innerHTML = cena;
+        }
+    </script>
 
 {% endblock %}
