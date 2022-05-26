@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PasutijumaVeidlapa
 from django.contrib import messages
-from .models import PakalpojumaVeids, Pasutijums
+from .models import PakalpojumaVeids, Pasutijums, BilzuGalerija, Bilde
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 
@@ -20,6 +20,24 @@ def pasutit(request):
             instance.lietotajs = request.user
             instance.pakalpojuma_veids = PakalpojumaVeids.objects.get(nosaukums=instance.pakalpojuma_veids)
             instance.save()
+
+            # Izveido jaunu bilžu galeriju:
+            bilzu_galerija = BilzuGalerija.objects.create(
+                nosaukums=str(
+                    instance.pakalpojuma_veids) + " - " + request.user.vards + " " + request.user.uzvards + " (" + str(
+                    instance.pasutijuma_datums) + ")",
+                pasutijums=instance,
+            )
+
+            # Saglabā katru augšupielādēto bildi:
+            bildes = request.FILES.getlist("bildes")
+            for bilde in bildes:
+                Bilde.objects.create(
+                    atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")), str(bilzu_galerija.id) + "_" + str(bilzu_galerija.nosaukums))),
+                    fails=bilde,
+                    lietotajs=request.user,
+                    bilzu_galerija=bilzu_galerija,
+                )
 
             # Veiksmīga pasūtījuma izveidošanas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
             messages.success(request, "Pasūtījums tika veiksmīgi izveidots!")

@@ -3,6 +3,11 @@ from lietotaji.models import Lietotajs, Fotografs
 from datetime import date, timedelta
 
 
+# Lietotāja pasūtījuma galerijas bildes ceļš:
+def bilzu_galerijas_cels(self, filename):
+    return '{0}/{1}'.format(self.atrasanas_vieta, filename)
+
+
 # Pakalpojuma veida modelis:
 class PakalpojumaVeids(models.Model):
     nosaukums = models.CharField(primary_key=True, max_length=128)
@@ -48,7 +53,7 @@ class BilzuGalerija(models.Model):
     izveidosanas_datums = models.DateTimeField(auto_now_add=True)
 
     # Ārējā atslēga:
-    models.ForeignKey(Pasutijums, to_field="id", on_delete=models.CASCADE)
+    pasutijums = models.ForeignKey(Pasutijums, to_field="id", on_delete=models.CASCADE, null=False)
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
@@ -64,10 +69,15 @@ class BilzuGalerija(models.Model):
 # Bilžu modelis:
 class Bilde(models.Model):
     id = models.AutoField(primary_key=True)
-    atrasanas_vieta = models.ImageField()
+
+    # Vieta, kur augšupielādēs bildi:
+    atrasanas_vieta = models.CharField(max_length=286, null=False)
 
     # Ārējā atslēga:
-    bilzu_galerija = models.ForeignKey(BilzuGalerija, to_field="id", on_delete=models.SET_NULL, null=True)
+    bilzu_galerija = models.ForeignKey(BilzuGalerija, to_field="id", on_delete=models.CASCADE)
+    lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.SET_NULL, null=True)
+
+    fails = models.ImageField(upload_to=bilzu_galerijas_cels)
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
