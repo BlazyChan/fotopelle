@@ -1,5 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
+import os
+import shutil
+from fotopelle.settings import MEDIA_ROOT
+
+
+# Izveido un izvada unikālu lietotāja mapīti un ievieto tur bildi ar orģinālo faila (bildes) nosaukumu:
+def lietotaja_profila_bildes_cels(instance, filename):
+    return 'lietotajs_{0}/profila_bilde/{1}'.format(instance.epasts.replace("@", "_"), filename)
 
 
 # Parasta lietotāja pārvaldnieks (manager):
@@ -51,8 +61,8 @@ class Lietotajs(AbstractBaseUser):
     telefona_numurs = models.CharField(max_length=15)
 
     # Pārējie lauki:
-    profila_bilde = models.ImageField(default='profila_bildes/noklusējuma_profila_bilde.png',
-                                      upload_to='profila_bildes/')
+    profila_bilde = models.ImageField(default='profila_bilde/noklusējuma_profila_bilde.png',
+                                      upload_to=lietotaja_profila_bildes_cels)
 
     # Te jānorāda lietotāja pārvaldnieks (manager):
     object = LietotajaParvaldnieks()
@@ -78,3 +88,28 @@ class Fotografs(models.Model):
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
         return self.lietotajs
+
+
+# Jaunas lietotāja profila bildes pievienošanas gadījumā ir jāizdzēš vecā profila bilde:
+@receiver(pre_save, sender=Lietotajs)
+def jauna_profila_bilde(sender, instance, *args, **kwargs):
+    try:
+        veca_bilde = Lietotajs.object.get(epasts=instance.epasts).profila_bilde.path
+        try:
+            jauna_bilde = instance.profila_bilde.path
+        except:
+            jauna_bilde = None
+        if jauna_bilde != veca_bilde and veca_bilde != 'profila_bilde/noklusējuma_profila_bilde.png':
+            if os.path.exists(veca_bilde):
+                os.remove(veca_bilde)
+    except:
+        pass
+
+
+# Lietotāja izdzēšanas gadījumā ir jāizdzēš vecā profila bildes mapīte:
+@receiver(pre_delete, sender=Lietotajs)
+def izdzest_mapi(sender, instance, *args, **kwargs):
+    try:
+        shutil.rmtree(str(MEDIA_ROOT) + "/" + lietotaja_profila_bildes_cels(instance, filename="").split("/")[0])
+    except:
+        pass
