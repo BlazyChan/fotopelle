@@ -29,15 +29,16 @@ def pasutit(request):
                 pasutijums=instance,
             )
 
-            # Saglabā katru augšupielādēto bildi:
-            bildes = request.FILES.getlist("bildes")
-            for bilde in bildes:
-                Bilde.objects.create(
-                    atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")), str(bilzu_galerija.id) + "_" + str(bilzu_galerija.nosaukums))),
-                    fails=bilde,
-                    lietotajs=request.user,
-                    bilzu_galerija=bilzu_galerija,
-                )
+            # Saglabā katru augšupielādēto bildi (no "bilžu izdrukas" pasūtījuma veida):
+            if instance.pakalpojuma_veids.nosaukums == "Bilžu izdruka":
+                bildes = request.FILES.getlist("bildes")
+                for bilde in bildes:
+                    Bilde.objects.create(
+                        atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")), str(bilzu_galerija.id) + "_" + str(bilzu_galerija.nosaukums))),
+                        fails=bilde,
+                        lietotajs=request.user,
+                        bilzu_galerija=bilzu_galerija,
+                    )
 
             # Veiksmīga pasūtījuma izveidošanas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
             messages.success(request, "Pasūtījums tika veiksmīgi izveidots!")

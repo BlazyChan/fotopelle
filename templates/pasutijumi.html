@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="container">
 
         <h1>Mani pasūtījumi</h1>
@@ -23,6 +22,8 @@
                         <th scope="col">Apraksts</th>
                         <th scope="col">Kopējā cena</th>
                         <th scope="col">Aktīvs</th>
+
+
                     </tr>
                 </thead>
                 <tbody class="table-group-divider table-light align-middle">
@@ -34,10 +35,16 @@
                             <td>{{ pasutijums.lietotajs }}</td>
 <!--                            <td>{{ pasutijums.pasutijuma_veiktais_datums }}</td>-->
                             <td>{{ pasutijums.pasutijuma_laiks }}</td>
-                            <td>{{ pasutijums.apraksts }}</td>
+                            <td>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#apraksts_{{ pasutijums.id }}" aria-expanded="false" aria-controls="apraksts_{{ pasutijums.id }}">
+                                    Apskatīt aprakstu
+                                </button>
+                            </td>
                             <td>{{ pasutijums.kopeja_cena }}</td>
                             <td >{{ pasutijums.aktivs }}</td>
                         </tr>
+
+                        <tr class="collapse" id="apraksts_{{ pasutijums.id }}"><td colspan=100 >{{ pasutijums.apraksts }}</td></tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>

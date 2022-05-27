@@ -9,7 +9,9 @@ class PasutijumaVeidlapa(ModelForm):
     # Datumam jābūt šodienai vai vēlāk:
     pasutijuma_datums = forms.DateField(widget=forms.DateInput(attrs={"type": "date", "min": datetime.now().date()}))
 
-    pasutijuma_laiks = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time", "value": "00:00", "step": "300"}))
+    pasutijuma_laiks = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time", "value": "00:00"}))
+
+    pakalpojuma_veids = forms.ModelChoiceField(queryset=PakalpojumaVeids.objects.all(), initial=0)
 
     # Jāaprēķina:
     kopeja_cena = forms.FloatField(widget=forms.NumberInput())
