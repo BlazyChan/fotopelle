@@ -43,6 +43,12 @@
 }
 
 
+/* Tabulu noformējums: */
+.table td, tr {
+    text-align: center;
+}
+
+
 /* Veidlapu papildus noformējums: */
 
 /* Lai nerāda bultiņas numuru ievadei (Chrome, Safari, Edge, Opera): */

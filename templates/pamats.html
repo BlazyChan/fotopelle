@@ -48,7 +48,7 @@
         </div>
 
         {% if user.is_authenticated %}
-        <img id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
+        <img class="rounded" id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
         <div id="nav-profila-vards">
             <p class="navbar-text">{{ user.vards }}</p>
         </div>

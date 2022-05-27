@@ -44,14 +44,14 @@
             </div>
 
             <div class="mb-3">
-                <p id="pakalpojuma_apraksta_virsraksts"></p>
-                <p id="pakalpojuma_apraksts"></p>
-                <p id="pakalpojuma_cenas_virsraksts"></p>
-                <p id="pakalpojuma_cena"></p>
+                <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
+                <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none;"></textarea>
+                <label class="form-label" id="pakalpojuma_cenas_virsraksts" style="display: none;"></label>
+                <textarea readonly class="form-control" id="pakalpojuma_cena" style="display: none;"></textarea>
 
-                <div>
+                <div id="bilzu_augsupielade" style="display: none;">
                     <label for="" class="form-label">Augšupielādēt bildes</label>
-                    <input type="file" name="bildes" multiple class="form-control-file">
+                    <input type="file" name="bildes" multiple>
                 </div>
 
             </div>
@@ -83,8 +83,18 @@
                 apraksts = "";
                 cenas_virsraksts = "";
                 cena = "";
+                document.getElementById("pakalpojuma_apraksta_virsraksts").style = "display: none;";
+                document.getElementById("pakalpojuma_cenas_virsraksts").style = "display: none;";
+                document.getElementById("pakalpojuma_apraksts").style = "display: none;";
+                document.getElementById("pakalpojuma_cena").style = "display: none;";
+
             }
             else {
+                document.getElementById("pakalpojuma_apraksta_virsraksts").style = "display: block;";
+                document.getElementById("pakalpojuma_cenas_virsraksts").style = "display: block;";
+                document.getElementById("pakalpojuma_apraksts").style = "display: block;";
+                document.getElementById("pakalpojuma_cena").style = "display: block;";
+
                 var pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
 
                 pakalpojumu_apraksti.forEach(function(pakalpojuma_apraksts) {
@@ -100,6 +110,14 @@
                 }
                 pakalpojuma_veids = pakalpojuma_veids + " apraksts:";
                 cenas_virsraksts = "Cena:";
+            }
+
+            // Rādīt vai nerādīt failu (bilžu) augšupielādes opciju:
+            if (pakalpojuma_veids == "Bilžu izdrukas apraksts:") {
+                document.getElementById("bilzu_augsupielade").style = "display: block;";
+            }
+            else {
+                document.getElementById("bilzu_augsupielade").style = "display: none;";
             }
 
             document.getElementById("pakalpojuma_apraksta_virsraksts").innerHTML = pakalpojuma_veids;

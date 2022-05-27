@@ -10,18 +10,41 @@
 
         <h1>Mani pasūtījumi</h1>
 
-        {% for pasutijums in pasutijumi %}
-            <p>
-                {{ pasutijums.id }}.
-                {{ pasutijums.aktivs }}
-                {{ pasutijums.pasutijuma_veiktais_datums }}
-                {{ pasutijums.pasutijuma_datums }}
-                {{ pasutijums.apraksts }}
-                {{ pasutijums.kopeja_cena }}
-                {{ pasutijums.lietotajs }}
-                {{ pasutijums.pakalpojuma_veids }}
-            </p>
-        {% endfor %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark align-middle">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Pakalpojuma veids</th>
+                        <th scope="col">Pasūtījuma datums</th>
+                        <th scope="col">Lietotājs</th>
+<!--                        <th scope="col">Pasūtījuma veiktais datums</th>-->
+                        <th scope="col">Pasūtījuma laiks</th>
+                        <th scope="col">Apraksts</th>
+                        <th scope="col">Kopējā cena</th>
+                        <th scope="col">Aktīvs</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider table-light align-middle">
+                    {% for pasutijums in pasutijumi %}
+                        <tr>
+                            <th scope="row">{{ pasutijums.id }}</th>
+                            <td>{{ pasutijums.pakalpojuma_veids }}</td>
+                            <td>{{ pasutijums.pasutijuma_datums }}</td>
+                            <td>{{ pasutijums.lietotajs }}</td>
+<!--                            <td>{{ pasutijums.pasutijuma_veiktais_datums }}</td>-->
+                            <td>{{ pasutijums.pasutijuma_laiks }}</td>
+                            <td>{{ pasutijums.apraksts }}</td>
+                            <td>{{ pasutijums.kopeja_cena }}</td>
+                            <td >{{ pasutijums.aktivs }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+            </table>
+        </div>
 
     </div>
 

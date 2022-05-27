@@ -99,7 +99,8 @@ def jauna_profila_bilde(sender, instance, *args, **kwargs):
             jauna_bilde = instance.profila_bilde.path
         except:
             jauna_bilde = None
-        if jauna_bilde != veca_bilde and veca_bilde != 'profila_bilde/noklusējuma_profila_bilde.png':
+
+        if jauna_bilde != veca_bilde and str(Lietotajs.object.get(epasts=instance.epasts).profila_bilde) != "profila_bilde/noklusējuma_profila_bilde.png":
             if os.path.exists(veca_bilde):
                 os.remove(veca_bilde)
     except:
