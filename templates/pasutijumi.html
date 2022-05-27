@@ -23,6 +23,7 @@
                         <th scope="col">Kopējā cena</th>
                         <th scope="col">Aktīvs</th>
 
+                        <th scope="col">Bilžu Galerija</th>
 
                     </tr>
                 </thead>
@@ -42,6 +43,9 @@
                             </td>
                             <td>{{ pasutijums.kopeja_cena }}</td>
                             <td >{{ pasutijums.aktivs }}</td>
+                            <td>
+                                <a class="btn btn-primary" type="button" href="/galerijas/{{ pasutijums.id }}">Galerija</a>
+                            </td>
                         </tr>
 
                         <tr class="collapse" id="apraksts_{{ pasutijums.id }}"><td colspan=100 >{{ pasutijums.apraksts }}</td></tr>

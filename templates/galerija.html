@@ -1,0 +1,18 @@
+{% extends 'pamats.html' %}
+
+{% block head %}
+<title>Galerija</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>{{ galerija.nosaukums }}</h1>
+
+        {% for bilde in bildes %}
+            <a href="{{ bilde.fails.url }}"><img class="img-thumbnail" src="{{ bilde.fails.url }}" alt="Bilde"></a>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

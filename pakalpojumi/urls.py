@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.sakumlapa, name="sākumlapa"),
     path('pasutit/', views.pasutit, name="pasūtīt"),
     path('pasutijumi/', views.pasutijumi, name="pasūtījumi"),
+    path('galerijas/<str:id>/', views.bilzu_galerijas_saite, name="galerija"),
 ]

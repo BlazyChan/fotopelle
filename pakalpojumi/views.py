@@ -57,3 +57,11 @@ def pasutit(request):
 def pasutijumi(request):
     vaicajums = Pasutijums.objects.all()
     return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums})
+
+
+# Bilžu galerijas lapa (balstoties uz pasūtījumu):
+def bilzu_galerijas_saite(request, id):
+    pasutijums = Pasutijums.objects.get(id=id)
+    galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
+    bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
+    return render(request, 'galerija.html', {"galerija": galerija, "bildes": bildes})
