@@ -25,8 +25,8 @@
                 <input data-toggle="password" type="password" class="form-control" id="parole" name="parole">
 
                 <!-- Parādīt un paslēpt paroli funkcijas  -->
-                <div class="input-group-text input-group-prepend">
-                    <a id="pārslēgt-ikonu"><i id="ikona" class="fa-solid fa-eye-slash fa-fw"></i></a>
+                <div id="pārslēgt-ikonu" class="input-group-text input-group-prepend" style="cursor: pointer;">
+                    <a><i id="ikona" class="fa-regular fa-eye-slash fa-fw"></i></a>
                 </div>
 
             </div>
@@ -45,7 +45,7 @@
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn btn-primary">Pieslēgties</button>
+            <button type="submit" class="btn">Pieslēgties</button>
 
         </form>
     </div>
@@ -55,28 +55,42 @@
 
     <!-- Parādīt un paslēpt paroli funkcija -->
     <script type="text/javascript">
-        $(document).ready(function(){
+        var ikona = document.getElementById("ikona");
+        var parslegt_ikonu = document.getElementById("pārslēgt-ikonu");
 
-            $("#pārslēgt-ikonu").click(function(){
+        parslegt_ikonu.addEventListener("click", function() {
+            if (ikona.classList.contains("fa-eye-slash")) {
+                ikona.setAttribute('class', "fa-solid fa-eye fa-fw");
+            }
+            else {
+                ikona.setAttribute('class', "fa-solid fa-eye-slash fa-fw");
+            }
 
-                var ikona = document.getElementById("ikona");
-                if (ikona.className==="fa-solid fa-eye-slash fa-fw"){
-                    ikona.setAttribute('class', "fa-solid fa-eye fa-fw");
-                }
-                else{
-                    ikona.setAttribute('class', "fa-solid fa-eye-slash fa-fw");
-                }
+            var parole = $("#parole");
+            if (parole.attr("type")==="password") {
+                parole.attr("type", "text");
+            }
+            else {
+                parole.attr("type", "password");
+            }
+        });
 
-                var parole = $("#parole");
-                if (parole.attr("type")==="password"){
-                    parole.attr("type", "text");
-                }
-                else{
-                    parole.attr("type", "password");
-                }
+        parslegt_ikonu.addEventListener("mouseover", function() {
+            if (ikona.classList.contains("fa-eye")) {
+                ikona.setAttribute('class', "fa-solid fa-eye fa-fw");
+            }
+            else {
+                ikona.setAttribute('class', "fa-solid fa-eye-slash fa-fw");
+            }
+        });
 
-            });
-
+        parslegt_ikonu.addEventListener("mouseout", function() {
+            if (ikona.classList.contains("fa-eye")) {
+                ikona.setAttribute('class', "fa-regular fa-eye fa-fw");
+            }
+            else {
+                ikona.setAttribute('class', "fa-regular fa-eye-slash fa-fw");
+            }
         });
     </script>
 

@@ -65,7 +65,7 @@ class Lietotajs(AbstractBaseUser):
                                       upload_to=lietotaja_profila_bildes_cels)
 
     # Te jānorāda lietotāja pārvaldnieks (manager):
-    object = LietotajaParvaldnieks()
+    objects = LietotajaParvaldnieks()
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):

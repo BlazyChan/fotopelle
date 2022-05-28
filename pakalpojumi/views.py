@@ -25,11 +25,7 @@ def pasutit(request):
 
                 # Izveido jaunu bilžu galeriju:
                 bilzu_galerija = BilzuGalerija.objects.create(
-                    nosaukums=str(
-                        instance.pakalpojuma_veids) + " - " + request.user.vards + " " + request.user.uzvards + " (" + str(
-                        instance.pasutijuma_datums) + ")",
-                    pasutijums=instance,
-                )
+                    nosaukums=str(instance.pakalpojuma_veids) + " - " + request.user.vards + " " + request.user.uzvards + " (" + str(instance.pasutijuma_datums) + ")", pasutijums=instance)
 
                 # Saglabā katru augšupielādēto bildi (no "bilžu izdrukas" pasūtījuma veida):
                 if instance.pakalpojuma_veids.nosaukums == "Bilžu izdruka":
@@ -39,7 +35,7 @@ def pasutit(request):
                             atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")), str(bilzu_galerija.id) + "_" + str(bilzu_galerija.nosaukums))),
                             fails=bilde,
                             lietotajs=request.user,
-                            bilzu_galerija=bilzu_galerija,
+                            bilzu_galerija=bilzu_galerija
                         )
 
                 # Veiksmīga pasūtījuma izveidošanas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
@@ -73,12 +69,14 @@ def pasutijumi(request):
     else:
         return redirect("/")
 
+
 # Bilžu galerijas lapa (balstoties uz pasūtījumu):
 def bilzu_galerijas_saite(request, id):
     pasutijums = Pasutijums.objects.get(id=id)
     if request.user.is_anonymous is False and (request.user == pasutijums.lietotajs or request.user.epasts == pasutijums.fotografs):
         galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
         bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
-        return render(request, 'galerija.html', {"galerija": galerija, "bildes": bildes})
+        skaits = bildes.count()
+        return render(request, 'galerija.html', {"galerija": galerija, "bildes": bildes, "skaits": skaits})
     else:
         return redirect('/pasutijumi/')

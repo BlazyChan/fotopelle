@@ -9,6 +9,8 @@
     <div class="container">
         <h1>{{ galerija.nosaukums }}</h1>
 
+        <p>Bilžu skaits: <strong>{{ skaits }}</strong></p>
+
         {% for bilde in bildes %}
             <a href="{{ bilde.fails.url }}"><img class="img-thumbnail" src="{{ bilde.fails.url }}" alt="Bilde"></a>
         {% endfor %}

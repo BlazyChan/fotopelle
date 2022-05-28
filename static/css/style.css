@@ -1,12 +1,92 @@
+/* Krāsu noformējums (piemērs, kā lietot - "var(--krāsa)"): */
+:root {
+    --t1: #1B2D06;
+    --t2: #201E02;
+
+    --e1: ;
+    --e2: ;
+    --e3: ;
+
+    --b1: #FCFBED;
+    --b2: #DBEE5C;
+}
+
+h1, label {
+    color: red;
+}
+
+.form-control, .form-control:focus {
+    color: blue;
+    border-color: blue;
+}
+
+input:-webkit-autofill {
+    -webkit-text-fill-color: blue;
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+
+/* Pogu noformējums: */
+.btn {
+    color: white;
+    background: purple;
+}
+
+.btn:hover {
+    color: purple;
+    background: white;
+    border: 1px solid purple;
+}
+
+/* Ikonas (rādīt/paslēpt paroli) noformējums: */
+#ikona {
+    color: white;
+}
+
+#pārslēgt-ikonu {
+    border: 1px solid purple;
+    background: purple;
+}
+
+/* Ikona maina izskatu, kad tai novieto kursoru virsū: */
+#pārslēgt-ikonu:hover {
+    background: white;
+}
+
+#pārslēgt-ikonu:hover #ikona {
+    color: purple;
+}
+
+
 /* Navigācijas joslas noformējums: */
+.navbar-nav .nav-link.active {
+    color: red;
+}
+
+.navbar {
+    background: var(--k3);
+}
+
+.navbar a {
+    border-radius: 4px;
+}
+
 .navbar .navbar-nav .nav-link:hover {
-    background-color: coral;
+    background: var(--k1);
+    color: yellow;
+}
+
+.navbar-brand:hover {
+    color: yellow;
 }
 
 .navbar-brand {
     text-align: center;
     width: 82px;
     margin: 0;
+    padding: 10px;
+    color: purple;
+    font-weight: bold;
 }
 
 #navigācijas_joslas_pārslēdzējs {
@@ -33,13 +113,31 @@
     }
 }
 
+.nav-link {
+    color: blue;
+}
+
 .navbar-text {
     margin-left: 10px;
     margin-bottom: 0;
     text-align: center;
     max-width: 270px;
     min-width: 42px;
+    color: purple;
+}
 
+
+/* Ritjoslas noformējums: */
+body::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+body::-webkit-scrollbar-track {
+    background: #1e1e24;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #6649b8;
 }
 
 
@@ -47,11 +145,6 @@
 .table td, tr {
     text-align: center;
 }
-
-
-
-/* Krāsu noformējums: */
-
 
 
 /* Veidlapu papildus noformējums: */
@@ -74,5 +167,5 @@ h1 {
 }
 
 body {
-    background-color: coral;
+    background: var(--k1);
 }

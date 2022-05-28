@@ -19,10 +19,10 @@
 </head>
 <body>
 <!-- Navigācijas josla -->
-<nav class="navbar navbar-expand-lg sticky-top bg-light">
+<nav class="navbar navbar-expand-lg shadow-lg">
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="{% url 'sākumlapa' %}">FotoPelle</a>
+        <a class="navbar-brand" href="{% url 'sākumlapa' %}" id="fotopelle">FotoPelle</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigācijas_joslas_pārslēdzējs" aria-controls="navigācijas_joslas_pārslēdzējs" aria-expanded="false" aria-label="Pārslēgt navigātoru">
             <span class="navbar-toggler-icon"></span>
@@ -63,6 +63,9 @@
 <!-- Kājene -->
 <footer>
 </footer>
+
+<p id="test1"></p>
+<p id="test2"></p>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
