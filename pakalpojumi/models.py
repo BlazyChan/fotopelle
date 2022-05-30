@@ -75,7 +75,7 @@ class Bilde(models.Model):
 
     # Ārējā atslēga:
     bilzu_galerija = models.ForeignKey(BilzuGalerija, to_field="id", on_delete=models.CASCADE)
-    lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.SET_NULL, null=True)
+    lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.CASCADE)
 
     fails = models.ImageField(upload_to=bilzu_galerijas_cels)
 

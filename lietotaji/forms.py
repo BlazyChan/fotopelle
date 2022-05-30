@@ -81,7 +81,7 @@ class RegistracijasVeidlapa(UserCreationForm):
                 zina = "Parole nedrīkst būt līdzīga uzvārdam!"
                 self.add_error("password1", zina)
         epasts = dati.get("epasts")
-        modificets_epasts = re.split(".|_", epasts.lower().split("@")[0])
+        modificets_epasts = re.split("_ |\.", epasts.lower().split("@")[0])
         if any(virkne in modificeta_parole for virkne in modificets_epasts):
             zina = "Parole nedrīkst būt līdzīga epastam!"
             self.add_error("password1", zina)

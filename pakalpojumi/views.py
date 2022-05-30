@@ -56,9 +56,9 @@ def pasutit(request):
 def pasutijumi(request):
     if request.user.is_anonymous is False:
         # Ja lietotājs ir fotogrāfs, tad izvada visus pasūtījumus:
-        if Fotografs.objects.filter(lietotajs=request.user.epasts).exists():
+        if Fotografs.objects.filter(lietotajs=request.user.epasts).exists() or request.user.is_superuser:
             virsraksts = "Visi pasūtījumi"
-            vaicajums = Pasutijums.objects.get()
+            vaicajums = Pasutijums.objects.all()
         # Ja lietotājs nav fotogrāfs, tad izvada visus šī paša lietotāja pasūtījumus:
         else:
             virsraksts = "Mani pasūtījumi"
@@ -73,7 +73,7 @@ def pasutijumi(request):
 # Bilžu galerijas lapa (balstoties uz pasūtījumu):
 def bilzu_galerijas_saite(request, id):
     pasutijums = Pasutijums.objects.get(id=id)
-    if request.user.is_anonymous is False and (request.user == pasutijums.lietotajs or request.user.epasts == pasutijums.fotografs):
+    if request.user.is_anonymous is False and (request.user == pasutijums.lietotajs or request.user.epasts == pasutijums.fotografs or request.user.is_superuser):
         galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
         bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
         skaits = bildes.count()

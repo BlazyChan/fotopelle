@@ -69,7 +69,7 @@ class Lietotajs(AbstractBaseUser):
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
-        return self.epasts
+        return str(self.epasts) + " - " + str(self.vards) + " " + str(self.uzvards)
 
     # Izvada lietotāja atļaujas:
     def has_perm(self, perm, obj=None):
@@ -87,7 +87,7 @@ class Fotografs(models.Model):
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
-        return self.lietotajs
+        return str(self.lietotajs)
 
 
 # Jaunas lietotāja profila bildes pievienošanas gadījumā ir jāizdzēš vecā profila bilde:

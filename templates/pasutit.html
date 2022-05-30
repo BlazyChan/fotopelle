@@ -43,22 +43,30 @@
                 {{ form.errors.pakalpojuma_veids }}
             </div>
 
-            <div class="mb-3">
-                <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
-                <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none;"></textarea>
+            <div class="pakalpojuma_apraksta_grupa">
+                <div class="mb-3">
+                    <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
+                    <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none;"></textarea>
+                </div>
+
                 <label class="form-label" id="pakalpojuma_cenas_virsraksts" style="display: none;"></label>
-                <textarea readonly class="form-control" id="pakalpojuma_cena" style="display: none;"></textarea>
+                <div class="input-group mb-3">
+                    <input readonly class="form-control" id="pakalpojuma_cena" style="display: none;"/>
+                    <span class="input-group-text naudas_zime">€</span>
+                </div>
 
                 <div id="bilzu_augsupielade" style="display: none;">
                     <label for="" class="form-label">Augšupielādēt bildes</label>
-                    <input type="file" name="bildes" multiple>
+                    <input class="bilzu_augsupielade" type="file" name="bildes" multiple>
                 </div>
-
             </div>
 
             <div class="mb-3">
                 <label for="{{ form.kopeja_cena.id_for_label }}" class="form-label">Kopējā cena</label>
-                {{ form.kopeja_cena }}
+                <div class="input-group mb-3">
+                    {{ form.kopeja_cena }}
+                    <span class="input-group-text naudas_zime">€</span>
+                </div>
                 {{ form.errors.kopeja_cena }}
             </div>
 
@@ -123,7 +131,7 @@
             document.getElementById("pakalpojuma_apraksta_virsraksts").innerHTML = pakalpojuma_veids;
             document.getElementById("pakalpojuma_apraksts").innerHTML = apraksts;
             document.getElementById("pakalpojuma_cenas_virsraksts").innerHTML = cenas_virsraksts;
-            document.getElementById("pakalpojuma_cena").innerHTML = cena;
+            document.getElementById("pakalpojuma_cena").value = cena;
         }
 
         window.onload = PakalpojumaApraksts();
