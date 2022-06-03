@@ -148,22 +148,17 @@
         var django_bildes = [];
 
         // Izdzēš bildi (div elementu un visus tā komponentus):
-        function IzdzestBildi(element, i) {
-            bilzu_augsupielade.files = bilzu_augsupielade.files;
-            bilzu_apskats.removeChild(element.parentElement);
+        function IzdzestBildi(element) {
+            indekss = django_bildes.indexOf(element.parentElement.firstChild.src);
 
-            // Noņem bildi no bilžu saraksta:
-            django_bildes.splice(i, 1);
+            django_bildes.splice(indekss, 1);
+            bilzu_apskats.removeChild(element.parentElement);
 
             // Noņem bildes no failu ievades lauka:
             bilzu_augsupielade.value = "";
         }
 
         bilzu_augsupielade.addEventListener("change", function() {
-            // Noņem visas bildes no bilžu apskata:
-            while (bilzu_apskats.firstChild) {
-                bilzu_apskats.removeChild(bilzu_apskats.lastChild);
-            }
 
             var bildes_numuri = Object.keys(this.files);
             var bildes = this.files;
@@ -195,7 +190,7 @@
                         var poga = document.createElement("button");
                         poga.type = "button";
                         poga.classList = "btn-close";
-                        poga.setAttribute("onclick", "IzdzestBildi(this, " + numurs + ")")
+                        poga.setAttribute("onclick", "IzdzestBildi(this)")
                         div.appendChild(poga);
                     });
 
