@@ -55,9 +55,10 @@
                     <span class="input-group-text naudas_zime">€</span>
                 </div>
 
-                <div id="bilzu_augsupielade" style="display: none;">
+                <div style="display: none;" id="bilzu_augsupielades_bloks">
                     <label for="" class="form-label">Augšupielādēt bildes</label>
-                    <input class="bilzu_augsupielade" type="file" name="bildes" multiple>
+                    <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple>
+                    <div id="bilzu_apskats"></div>
                 </div>
             </div>
 
@@ -76,13 +77,16 @@
                 {{ form.errors.apraksts }}
             </div>
 
-            <button type="submit" class="btn">Izveidot pasūtījumu</button>
+            <button type="submit" onclick="SutitBildes()" class="btn">Izveidot pasūtījumu</button>
 
         </form>
 
     </div>
 
-    <!--  Priekš pakalpojuma apraksta un galerijas (izsauc funkciju, kad pārmaina izvēlnes vērtību):  -->
+    <!-- jQuery Core -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Priekš pakalpojuma apraksta un galerijas (izsauc funkciju, kad pārmaina izvēlnes vērtību): -->
     <script>
         function PakalpojumaApraksts() {
             var pakalpojuma_veids = document.getElementById("id_pakalpojuma_veids").value;
@@ -122,10 +126,10 @@
 
             // Rādīt vai nerādīt failu (bilžu) augšupielādes opciju:
             if (pakalpojuma_veids == "Bilžu izdrukas apraksts:") {
-                document.getElementById("bilzu_augsupielade").style = "display: block;";
+                document.getElementById("bilzu_augsupielades_bloks").style = "display: block;";
             }
             else {
-                document.getElementById("bilzu_augsupielade").style = "display: none;";
+                document.getElementById("bilzu_augsupielades_bloks").style = "display: none;";
             }
 
             document.getElementById("pakalpojuma_apraksta_virsraksts").innerHTML = pakalpojuma_veids;
@@ -137,4 +141,74 @@
         window.onload = PakalpojumaApraksts();
     </script>
 
+<!-- Priekš bilžu augšupielādes: -->
+    <script>
+        var bilzu_augsupielade = document.getElementById("bilzu_augsupielade");
+        var bilzu_apskats = document.getElementById("bilzu_apskats");
+        var django_bildes = [];
+
+        // Izdzēš bildi (div elementu un visus tā komponentus):
+        function IzdzestBildi(element, i) {
+            bilzu_augsupielade.files = bilzu_augsupielade.files;
+            bilzu_apskats.removeChild(element.parentElement);
+        }
+
+        bilzu_augsupielade.addEventListener("change", function() {
+            // Noņem visas bildes no bilžu apskata:
+            while (bilzu_apskats.firstChild) {
+                bilzu_apskats.removeChild(bilzu_apskats.lastChild);
+            }
+
+            var bildes_numuri = Object.keys(this.files);
+            var bildes = this.files;
+
+            if (bildes) {
+                bildes_numuri.forEach(numurs => {
+                    bilde = bildes[numurs]
+
+                    var bildes_url = new FileReader();
+
+                    bildes_url.addEventListener("load", function() {
+                        // Izveido jaunu div tagu:
+                        var div = document.createElement("div");
+                        div.setAttribute("class", "blizu_apskata_bildes_lauks");
+                        bilzu_apskats.appendChild(div);
+
+
+                        // Izveido jaunu bildi un pievieno to bilžu apskatā::
+                        var bilde = new Image();
+                        bilde.src = this.result;
+                        bilde.classList = "blizu_apskata_bilde rounded";
+                        bilde.height = 100;
+                        div.appendChild(bilde);
+
+                        // Pievieno bildi sarakstam:
+                        django_bildes.push(this.result);
+
+                        // Izveido jaunu pogu bildei:
+                        var poga = document.createElement("button");
+                        poga.type = "button";
+                        poga.classList = "btn-close";
+                        poga.setAttribute("onclick", "IzdzestBildi(this, " + numurs + ")")
+                        div.appendChild(poga);
+                    });
+
+                    bildes_url.readAsDataURL(bilde);
+                });
+            }
+        });
+
+        // Aizsūta bildes, lai Django tās saņem:
+        function SutitBildes() {
+            $.ajax({
+                method: 'POST',
+                url: {% url "pasūtīt" %},
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                mode: 'same-origin',
+                data: {
+                    'django_bildes[]': django_bildes,
+                },
+            });
+        }
+    </script>
 {% endblock %}

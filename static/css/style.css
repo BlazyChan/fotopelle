@@ -25,11 +25,11 @@ td, p {
 }
 
 .img-thumbnail {
-    background: purple;
+    border: 3px solid purple;
 }
 
 .img-thumbnail:hover {
-    background: yellow;
+    border: 3px solid yellow;
 }
 
 .naudas_zime {
@@ -208,7 +208,21 @@ input[type=number] {
 
 /* Bilžu augšupielāde: */
 .bilzu_augsupielade {
+    width: .1px;
+    height: .1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 
+.blizu_apskata_bilde {
+    border: 2px solid purple;
+    background: white;
+}
+
+.blizu_apskata_bilde:hover {
+    border: 2px solid yellow;
 }
 
 
