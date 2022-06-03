@@ -20,7 +20,8 @@ class RegistracijasVeidlapa(UserCreationForm):
     uzvards = forms.CharField(max_length=32, widget=forms.TextInput(),
                               error_messages={"required": "Uzvārdam ir jābūt norādītam!"})
     telefona_numurs = forms.CharField(max_length=15, widget=TelefonaIevade(
-        attrs={"pattern": "(\+371)?\s?[0-9]{2}[-\s]?[0-9]{3}[-\s]?[0-9]{3}", "value": "+371 "}))
+        attrs={"pattern": "(\+371)?\s?[0-9]{2}[-\s]?[0-9]{3}[-\s]?[0-9]{3}", "value": "+371 ",
+               "autocomplete": "id_telefona_numurs"}))
 
     class Meta:
         model = Lietotajs
@@ -32,6 +33,11 @@ class RegistracijasVeidlapa(UserCreationForm):
         for lauks in self.fields:
             widget_attrs = {"class": "form-control"}
             self.fields[str(lauks)].widget.attrs.update(widget_attrs)
+
+    # Pārveido (iztīra) e-pasta adresi (pārtaisa lielos burtus uz mazajiem):
+    def clean_epasts(self):
+        epasts = self.cleaned_data["epasts"]
+        return epasts.lower()
 
     # Validājija reģistrēšanās veidlapai:
     def clean(self):
@@ -80,7 +86,7 @@ class RegistracijasVeidlapa(UserCreationForm):
             if uzvards in modificeta_parole:
                 zina = "Parole nedrīkst būt līdzīga uzvārdam!"
                 self.add_error("password1", zina)
-        epasts = dati.get("epasts")
+        epasts = dati.get('epasts')
         modificets_epasts = re.split("_ |\.", epasts.lower().split("@")[0])
         if any(virkne in modificeta_parole for virkne in modificets_epasts):
             zina = "Parole nedrīkst būt līdzīga epastam!"

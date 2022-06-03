@@ -82,8 +82,9 @@
                 document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left: " + papildus + "px;";
             }
 
-            if (document.getElementById("nav-profila-vards") != "null") {
-                var profila_varda_platums = document.getElementById("nav-profila-vards").offsetWidth;
+            profila_vards = document.getElementById("nav-profila-vards")
+            if (profila_vards!= "null") {
+                var profila_varda_platums = profila_vards.offsetWidth;
                 if (profila_varda_platums != 0) {
                     profila_varda_platums = profila_varda_platums - 42 + papildus;
                     document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left:" + profila_varda_platums + "px; padding-right: 0;";

@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserChangeForm
 # Pieslēgšanās (ar visu autentifikāciju):
 def pieslegties(request):
     if request.method == "POST":
-        epasts = request.POST['epasts']
+        epasts = request.POST['epasts'].lower()
         parole = request.POST['parole']
         lietotajs = authenticate(request, username=epasts, password=parole)
         if lietotajs is not None:
@@ -35,7 +35,7 @@ def registreties(request):
             form.save()
             epasts = form.cleaned_data['epasts']
             parole = form.cleaned_data['password1']
-            lietotajs = authenticate(request, username=epasts, password=parole)
+            lietotajs = authenticate(request, epasts=epasts, password=parole)
             login(request, lietotajs)
             # Veiksmīgas reģistrācijas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
             messages.success(request, "Jūsu profils tika veiksmīgi izveidots!")

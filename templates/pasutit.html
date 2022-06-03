@@ -57,7 +57,7 @@
 
                 <div style="display: none;" id="bilzu_augsupielades_bloks">
                     <label for="" class="form-label">Augšupielādēt bildes</label>
-                    <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple>
+                    <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/*">
                     <div id="bilzu_apskats"></div>
                 </div>
             </div>
@@ -151,6 +151,12 @@
         function IzdzestBildi(element, i) {
             bilzu_augsupielade.files = bilzu_augsupielade.files;
             bilzu_apskats.removeChild(element.parentElement);
+
+            // Noņem bildi no bilžu saraksta:
+            django_bildes.splice(i, 1);
+
+            // Noņem bildes no failu ievades lauka:
+            bilzu_augsupielade.value = "";
         }
 
         bilzu_augsupielade.addEventListener("change", function() {
@@ -210,5 +216,18 @@
                 },
             });
         }
+    </script>
+
+    <!-- Priekš ciparu ievades lauka, lai nevarētu laukā ievadīt nevēlamas vērtības: -->
+    <script>
+        kopeja_cena = document.getElementById("id_kopeja_cena");
+
+        var neatlautais_ievads = ["-", "+", "e", "E"];
+
+        kopeja_cena.addEventListener("keypress", function (ievads) {
+            if (neatlautais_ievads.includes(ievads.key)) {
+                ievads.preventDefault();
+            }
+        });
     </script>
 {% endblock %}

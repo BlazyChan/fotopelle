@@ -25,7 +25,7 @@ class LietotajaParvaldnieks(BaseUserManager):
             **citi_lauki
         )
         lietotajs.set_password(password)
-        lietotajs.save()
+        lietotajs.save(using=self._db)
         return lietotajs
 
     # Izveido administratoru (ar visām atļaujām):
