@@ -75,6 +75,7 @@ input:-webkit-autofill {
 .btn {
     color: white;
     background: purple;
+    border: 1px solid purple;
 }
 
 .btn:hover {
@@ -82,6 +83,7 @@ input:-webkit-autofill {
     background: white;
     border: 1px solid purple;
 }
+
 
 /* Ikonas (rādīt/paslēpt paroli) noformējums: */
 #ikona {
@@ -206,16 +208,7 @@ input[type=number] {
 }
 
 
-/* Bilžu augšupielāde: */
-.bilzu_augsupielade {
-    width: .1px;
-    height: .1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-}
-
+/* Bilžu augšupielāde un apskate: */
 .blizu_apskata_bilde {
     border: 2px solid purple;
     background: white;
