@@ -46,10 +46,10 @@
                 {{ form.errors.telefona_numurs }}
             </div>
 
-            <a href="{{ user.profila_bilde.url }}"><img class="img-thumbnail rounded" width="20%" src="{{ user.profila_bilde.url }}" alt="Profila bilde"></a>
+            <img id="profila_bilde" class="img-thumbnail rounded mb-3" width="20%" src="{{ user.profila_bilde.url }}" alt="Profila bilde">
             <div class="mb-3">
-                <label for="{{ form.profila_bilde.id_for_label }}" class="form-label">Profila bilde</label>
                 {{ form.profila_bilde }}
+                <button type="button" class="btn" id="augsupieladet_poga">Augšupielādēt jaunu profila bildi</button>
                 {{ form.errors.profila_bilde }}
             </div>
 
@@ -57,4 +57,27 @@
         </form>
     </div>
 
+    <!-- Priekš profila bildes augšupielādes: -->
+    <script>
+        // Augšupielādes pogas dizains:
+        var augsupieladet_poga = document.getElementById("augsupieladet_poga");
+        var bilzu_augsupielade = document.getElementById("id_profila_bilde");
+        var profila_bilde = document.getElementById("profila_bilde");
+
+        augsupieladet_poga.addEventListener("click", function() {
+            bilzu_augsupielade.click();
+            augsupieladet_poga.blur();
+        });
+
+        bilzu_augsupielade.addEventListener("change", function() {
+            var bilde = this.files[0];
+            if (bilde) {
+                var bildes_url = new FileReader();
+                bildes_url.addEventListener("load", function() {
+                    profila_bilde.src = this.result;
+                });
+                bildes_url.readAsDataURL(bilde);
+            }
+        });
+    </script>
 {% endblock %}

@@ -6,7 +6,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from lietotaji.models import Fotografs
 import base64
-from django.core.files.base import ContentFile
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
@@ -95,7 +94,7 @@ def pasutijumi(request):
             vaicajums = Pasutijums.objects.filter(lietotajs=request.user)
         # Pasūtījumu skaits:
         skaits = vaicajums.count()
-        return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums, "virsraksts": virsraksts, "skaits": skaits})
+        return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums, "virsraksts": virsraksts, "skaits": skaits, "diapazona": range(int(skaits))})
     else:
         return redirect("/")
 

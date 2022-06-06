@@ -108,7 +108,7 @@ class ProfilaRedigesanasVeidlapa(UserChangeForm):
     telefona_numurs = forms.CharField(max_length=15, widget=forms.TextInput(
         attrs={'class': "form-control", "pattern": "(\+371)?\s?[0-9]{2}[-\s]?[0-9]{3}[-\s]?[0-9]{3}",
                "value": "+371 "}))
-    profila_bilde = forms.ImageField()
+    profila_bilde = forms.ImageField(widget=forms.FileInput(attrs={'style': "display: none;"}))
 
     class Meta:
         model = Lietotajs
