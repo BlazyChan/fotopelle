@@ -147,7 +147,7 @@ def bilzu_galerijas_saite(request, id):
                       {"galerija": galerija, "bildes": bildes, "skaits": skaits, "ir_fotografs": ir_fotografs, "id": id, "pasa_bildes": pasa_bildes})
 
 
-#
+# Bilžu izdzēšana, balstoties uz pasūtījumu un lietotāju:
 def izdzest_bildes(request, id):
     bilzu_galerija = BilzuGalerija.objects.get(pasutijums=id)
     bildes = Bilde.objects.filter(bilzu_galerija_id=bilzu_galerija.id, lietotajs=request.user)

@@ -38,6 +38,14 @@ td, p {
     border: 1px solid blue;
 }
 
+.tabulas_galvene {
+    background: dimgray;
+}
+
+.table-group-divider, .table-bordered {
+    border-color: gray;
+}
+
 
 /* Veidlapu un ievades lauku noformējums: */
 .form-control, .form-control:focus {

@@ -1,6 +1,7 @@
 {% extends 'pamats.html' %}
 
-{% load iegut_pakalpojumu %}
+{% load iegut_pasutijumu %}
+{% load izdailot_telefona_numuru %}
 
 {% block head %}
 <title>Pasūtījumi</title>
@@ -14,44 +15,58 @@
 
         <p>Pasūtījumu skaits: <strong>{{ skaits }}</strong></p>
 
-        <div class="table-responsive rounded">
-            <table class="table table-hover">
-                <thead class="table-dark align-middle">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="tabulas_galvene align-middle">
                     <tr>
                         <th scope="col" data-field="nr">Nr.</th>
                         <th scope="col" data-field="pakalpojuma_veids">Pakalpojuma veids</th>
+
                         <th scope="col" data-field="pasutijuma_datums">Pasūtījuma datums</th>
-                        <th scope="col" data-field="lietotajs">Lietotājs</th>
-    <!--                        <th scope="col" data-field="pasutijuma_veiktais_datums">Pasūtījuma veiktais datums</th>-->
                         <th scope="col" data-field="pasutijuma_laiks">Pasūtījuma laiks</th>
+
+                        <th scope="col" data-field="lietotaj_vards">Vārds</th>
+                        <th scope="col" data-field="lietotaja_uzvards">Uzvārds</th>
+                        <th scope="col" data-field="lietotaja_telefona_numurs">Telefona numurs</th>
+
+                        <th scope="col" data-field="pasutijuma_veiktais_datums">Pasūtījuma veiktais datums</th>
+
                         <th scope="col" data-field="apraksts">Apraksts</th>
-                        <th scope="col" data-field="kopeja_cena">Kopējā cena</th>
-                        <th scope="col" data-field="aktivs">Aktīvs</th>
+                        <th scope="col" data-field="kopeja_cena">Kopējā cena (€)</th>
 
                         <th scope="col" data-field="bilzu_galerija">Bilžu Galerija</th>
+
+                        <th scope="col" data-field="aktivs">Aktīvs</th>
 
                     </tr>
                 </thead>
                 <tbody class="table-group-divider align-middle">
                     {% for i in diapazona %}
-                        {% with pasutijums=pasutijumi|iegut_pakalpojumu:i %}
+                        {% with pasutijums=pasutijumi|iegut_pasutijumu:i %}
                             <tr>
                                 <th scope="row">{{ i|add:"1" }}</th>
                                 <td>{{ pasutijums.pakalpojuma_veids }}</td>
+
                                 <td>{{ pasutijums.pasutijuma_datums }}</td>
-                                <td>{{ pasutijums.lietotajs }}</td>
+                                <td>{{ pasutijums.pasutijuma_laiks }}</td>
+
+                                <td>{{ pasutijums.lietotajs.vards }}</td>
+                                <td>{{ pasutijums.lietotajs.uzvards }}</td>
+                                <td style="white-space: nowrap;">{{ pasutijums.lietotajs.telefona_numurs|izdailot_telefona_numuru }}</td>
+
                                 <td>{{ pasutijums.pasutijuma_veiktais_datums }}</td>
-    <!--                                <td>{{ pasutijums.pasutijuma_laiks }}</td>-->
+
                                 <td>
                                     <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#apraksts_{{ pasutijums.id }}" aria-expanded="false" aria-controls="apraksts_{{ pasutijums.id }}">
                                         Apskatīt aprakstu
                                     </button>
                                 </td>
                                 <td>{{ pasutijums.kopeja_cena }}</td>
+
+                                <td><a class="btn" type="button" href="/galerijas/{{ pasutijums.id }}">Galerija</a></td>
+
                                 <td >{{ pasutijums.aktivs }}</td>
-                                <td>
-                                    <a class="btn" type="button" href="/galerijas/{{ pasutijums.id }}">Galerija</a>
-                                </td>
+
                             </tr>
 
                             <tr class="collapse" id="apraksts_{{ pasutijums.id }}"><td colspan=100 >{{ pasutijums.apraksts }}</td></tr>
