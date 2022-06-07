@@ -136,15 +136,15 @@ input:-webkit-autofill {
 
 .navbar-brand {
     text-align: center;
-    width: 82px;
     margin: 0;
-    padding: 10px;
+    padding: 0;
+    padding-left: 10px;
     color: purple;
     font-weight: bold;
 }
 
 #navigācijas_joslas_pārslēdzējs {
-    padding-right: 82px;
+    padding-right: 0;
     padding-left: 0;
 }
 
@@ -176,11 +176,8 @@ input:-webkit-autofill {
 }
 
 .navbar-text {
-    margin-left: 10px;
     margin-bottom: 0;
     text-align: center;
-    max-width: 270px;
-    min-width: 42px;
     color: purple;
 }
 

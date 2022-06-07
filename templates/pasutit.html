@@ -144,6 +144,10 @@
 
     <!-- Priekš bilžu augšupielādes: -->
     <script>
+        var cena = document.getElementById("pakalpojuma_cena");
+        var kopeja_cena = document.getElementById("id_kopeja_cena");
+        kopeja_cena.value = 0;
+
         var bilzu_augsupielade = document.getElementById("bilzu_augsupielade");
         var bilzu_apskats = document.getElementById("bilzu_apskats");
         var django_bildes = [];
@@ -157,6 +161,9 @@
 
             // Noņem bildes no failu ievades lauka:
             bilzu_augsupielade.value = "";
+
+            // Priekš kopējās cenas lauka (aprēķina kopējo cenu):
+            kopeja_cena.value = kopeja_cena.value - cena.value;
         }
 
         bilzu_augsupielade.addEventListener("change", function() {
@@ -193,6 +200,9 @@
                         poga.classList = "btn-close";
                         poga.setAttribute("onclick", "IzdzestBildi(this)")
                         div.appendChild(poga);
+
+                        // Priekš kopējās cenas lauka (aprēķina kopējo cenu):
+                        kopeja_cena.value = Number(kopeja_cena.value) + Number(cena.value);
                     });
 
                     bildes_url.readAsDataURL(bilde);
@@ -229,13 +239,13 @@
             while (bilzu_apskats.firstChild) {
                 bilzu_apskats.removeChild(bilzu_apskats.lastChild);
             }
+            kopeja_cena.value = 0;
         });
-
     </script>
 
     <!-- Priekš ciparu ievades lauka, lai nevarētu laukā ievadīt nevēlamas vērtības: -->
     <script>
-        kopeja_cena = document.getElementById("id_kopeja_cena");
+        var kopeja_cena = document.getElementById("id_kopeja_cena");
 
         var neatlautais_ievads = ["-", "+", "e", "E"];
 

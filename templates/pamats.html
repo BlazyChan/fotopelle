@@ -48,10 +48,8 @@
         </div>
 
         {% if user.is_authenticated %}
-        <img class="rounded" id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
-        <div id="nav-profila-vards">
-            <p class="navbar-text">{{ user.vards }}</p>
-        </div>
+            <img style="margin-right: 10px;" class="rounded" id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
+            <p style="padding-right: 10px;" id="nav-profila-vards" class="navbar-text">{{ user.vards }}</p>
         {% endif %}
 
     </div>
@@ -67,35 +65,25 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
-<!-- Skripts, lai dabūtu profila sadaļas platumu navigācijas joslā: -->
+<!-- Skripts, lai navigācijas josla būtu pašā vidū (centrēta): -->
 <script>
-    function ProfilaPlatums() {
-        try {
-            var papildus = 0;
-            if (window.innerWidth > document.body.clientWidth) {
-                papildus = window.innerWidth - document.body.clientWidth;
-            }
-            else {
-                document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left: " + papildus + "px;";
-            }
+    var fotopelle = document.getElementById("fotopelle");
+    var profila_vards = document.getElementById("nav-profila-vards");
+    var profila_bilde = document.getElementById("nav-profila-bilde");
 
-            profila_vards = document.getElementById("nav-profila-vards")
-            if (profila_vards!= "null") {
-                var profila_varda_platums = profila_vards.offsetWidth;
-                if (profila_varda_platums != 0) {
-                    profila_varda_platums = profila_varda_platums - 42 + papildus;
-                    document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-left:" + profila_varda_platums + "px; padding-right: 0;";
-                }
-                else {
-                    document.getElementById("navigācijas_joslas_pārslēdzējs").style = "padding-right: 42px; padding-left: "+papildus+"px;";
-                }
-            }
+    function NavigacijasJosla() {
+        var platums = 0;
+        if (profila_vards) {
+            platums = platums + profila_vards.offsetWidth;
         }
-        catch (kluda) {}
-    }
+        if (profila_bilde) {
+            platums = platums + profila_bilde.offsetWidth + 10;
+        }
+        fotopelle.style = "width: " + platums + "px;";
+    };
 
-    window.addEventListener("resize", ProfilaPlatums);
-    window.onload = ProfilaPlatums();
+    window.onload = NavigacijasJosla();
+    window.addEventListener("resize", NavigacijasJosla);
 </script>
 
 </body>
