@@ -9,12 +9,125 @@
     <div class="container">
         <h1>{{ galerija.nosaukums }}</h1>
 
+        {% if ir_fotografs %}
+            <div id="bilzu_augsupielades_bloks">
+                <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/*" style="display: none;">
+                <button type="button" class="btn" id="augsupieladet_poga">Augšupielādēt bildes</button>
+                <button type="button" class="btn" id="nonemt_poga">Izņemt visas bildes</button>
+                <button type="button" class="btn" id="sablabat_poga" onclick="SutitBildes()">Saglabāt</button>
+                <div id="bilzu_apskats"></div>
+            </div>
+        {% endif %}
+
         <p>Bilžu skaits: <strong>{{ skaits }}</strong></p>
 
-        {% for bilde in bildes %}
-            <a href="{{ bilde.fails.url }}"><img class="img-thumbnail" src="{{ bilde.fails.url }}" alt="Bilde"></a>
-        {% endfor %}
+        <div class="row">
+            {% for bilde in bildes %}
+            <div class="col-sm-6 col-md-4 mb-3">
+                <img class="img-thumbnail" src="{{ bilde.fails.url }}" alt="Bilde">
+            </div>
+            {% endfor %}
+        </div>
 
     </div>
+
+    <!-- jQuery Core -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Priekš bilžu augšupielādes: -->
+    <script>
+        var nonemt_poga = document.getElementById("nonemt_poga");
+        var bilzu_augsupielade = document.getElementById("bilzu_augsupielade");
+        var bilzu_apskats = document.getElementById("bilzu_apskats");
+        var django_bildes = [];
+
+        // Izdzēš bildi (div elementu un visus tā komponentus):
+        function IzdzestBildi(element) {
+            indekss = django_bildes.indexOf(element.parentElement.firstChild.src);
+
+            django_bildes.splice(indekss, 1);
+            bilzu_apskats.removeChild(element.parentElement);
+
+            // Noņem bildes no failu ievades lauka:
+            bilzu_augsupielade.value = "";
+        }
+
+        bilzu_augsupielade.addEventListener("change", function() {
+
+            var bildes_numuri = Object.keys(this.files);
+            var bildes = this.files;
+
+            if (bildes) {
+                bildes_numuri.forEach(numurs => {
+                    bilde = bildes[numurs]
+
+                    var bildes_url = new FileReader();
+
+                    bildes_url.addEventListener("load", function() {
+                        // Izveido jaunu div tagu:
+                        var div = document.createElement("div");
+                        div.setAttribute("class", "blizu_apskata_bildes_lauks");
+                        bilzu_apskats.appendChild(div);
+
+
+                        // Izveido jaunu bildi un pievieno to bilžu apskatā::
+                        var bilde = new Image();
+                        bilde.src = this.result;
+                        bilde.classList = "blizu_apskata_bilde rounded";
+                        bilde.height = 100;
+                        div.appendChild(bilde);
+
+                        // Pievieno bildi sarakstam:
+                        django_bildes.push(this.result);
+
+                        // Izveido jaunu pogu bildei:
+                        var poga = document.createElement("button");
+                        poga.type = "button";
+                        poga.classList = "btn-close";
+                        poga.setAttribute("onclick", "IzdzestBildi(this)")
+                        div.appendChild(poga);
+                    });
+
+                    bildes_url.readAsDataURL(bilde);
+                });
+            }
+        });
+
+        // Aizsūta bildes, lai Django tās saņem:
+        function SutitBildes() {
+            $.ajax({
+                method: 'POST',
+                //url: {% url "galerija" id %},
+                url: '{% url "galerija" id %}',
+                //url: /galerijas/{{ id|stringformat:"i" }}/,
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                mode: 'same-origin',
+                data: {
+                    'django_bildes[]': django_bildes,
+                },
+                success: function(){
+                    window.location.reload();
+                },
+            });
+        }
+
+        // Augšupielādes pogas dizains:
+        var augsupieladet_poga = document.getElementById("augsupieladet_poga");
+
+        augsupieladet_poga.addEventListener("click", function() {
+            bilzu_augsupielade.click();
+            augsupieladet_poga.blur();
+        });
+
+        // Poga, kas izdzēš/noņem visas augšupielādes bildes:
+        nonemt_poga.addEventListener("click", function() {
+            nonemt_poga.blur();
+            django_bildes = [];
+            while (bilzu_apskats.firstChild) {
+                bilzu_apskats.removeChild(bilzu_apskats.lastChild);
+            }
+        });
+
+    </script>
 
 {% endblock %}
