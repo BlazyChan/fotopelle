@@ -136,5 +136,20 @@ def bilzu_galerijas_saite(request, id):
         galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
         bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
         skaits = bildes.count()
+
+        # Pārbauda vai bilžu galerijas bildes pieder pašreizējam lietotājam:
+        if bildes.filter(lietotajs=request.user):
+            pasa_bildes = True
+        else:
+            pasa_bildes = False
+
         return render(request, 'galerija.html',
-                      {"galerija": galerija, "bildes": bildes, "skaits": skaits, "ir_fotografs": ir_fotografs, "id": id})
+                      {"galerija": galerija, "bildes": bildes, "skaits": skaits, "ir_fotografs": ir_fotografs, "id": id, "pasa_bildes": pasa_bildes})
+
+
+#
+def izdzest_bildes(request, id):
+    bilzu_galerija = BilzuGalerija.objects.get(pasutijums=id)
+    bildes = Bilde.objects.filter(bilzu_galerija_id=bilzu_galerija.id, lietotajs=request.user)
+    bildes.delete()
+    return redirect("/galerijas/" + id + "/")
