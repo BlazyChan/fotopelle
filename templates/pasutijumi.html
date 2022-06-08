@@ -25,18 +25,20 @@
                         <th scope="col" data-field="pasutijuma_datums">Pasūtījuma datums</th>
                         <th scope="col" data-field="pasutijuma_laiks">Pasūtījuma laiks</th>
 
+                        {% if ir_fotografs %}
                         <th scope="col" data-field="lietotaj_vards">Vārds</th>
                         <th scope="col" data-field="lietotaja_uzvards">Uzvārds</th>
                         <th scope="col" data-field="lietotaja_telefona_numurs">Telefona numurs</th>
 
                         <th scope="col" data-field="pasutijuma_veiktais_datums">Pasūtījuma veiktais datums</th>
+                        {% endif %}
 
                         <th scope="col" data-field="apraksts">Apraksts</th>
                         <th scope="col" data-field="kopeja_cena">Kopējā cena (€)</th>
 
                         <th scope="col" data-field="bilzu_galerija">Bilžu Galerija</th>
 
-                        <th scope="col" data-field="aktivs">Aktīvs</th>
+                        {% if ir_fotografs %}<th scope="col" data-field="aktivs">Aktīvs</th>{% endif %}
 
                     </tr>
                 </thead>
@@ -50,11 +52,13 @@
                                 <td>{{ pasutijums.pasutijuma_datums }}</td>
                                 <td>{{ pasutijums.pasutijuma_laiks }}</td>
 
+                                {% if ir_fotografs %}
                                 <td>{{ pasutijums.lietotajs.vards }}</td>
                                 <td>{{ pasutijums.lietotajs.uzvards }}</td>
                                 <td style="white-space: nowrap;">{{ pasutijums.lietotajs.telefona_numurs|izdailot_telefona_numuru }}</td>
 
                                 <td>{{ pasutijums.pasutijuma_veiktais_datums }}</td>
+                                {% endif %}
 
                                 <td>
                                     <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#apraksts_{{ pasutijums.id }}" aria-expanded="false" aria-controls="apraksts_{{ pasutijums.id }}">
@@ -65,7 +69,7 @@
 
                                 <td><a class="btn" type="button" href="/galerijas/{{ pasutijums.id }}">Galerija</a></td>
 
-                                <td >{{ pasutijums.aktivs }}</td>
+                                {% if ir_fotografs %}<td >{{ pasutijums.aktivs }}</td>{% endif %}
 
                             </tr>
 
