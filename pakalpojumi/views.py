@@ -88,13 +88,15 @@ def pasutijumi(request):
         if Fotografs.objects.filter(lietotajs=request.user.epasts).exists() or request.user.is_superuser:
             virsraksts = "Visi pasūtījumi"
             vaicajums = Pasutijums.objects.all()
+            ir_fotografs = True
         # Ja lietotājs nav fotogrāfs, tad izvada visus šī paša lietotāja pasūtījumus:
         else:
             virsraksts = "Mani pasūtījumi"
             vaicajums = Pasutijums.objects.filter(lietotajs=request.user)
+            ir_fotografs = False
         # Pasūtījumu skaits:
         skaits = vaicajums.count()
-        return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums, "virsraksts": virsraksts, "skaits": skaits, "diapazona": range(int(skaits))})
+        return render(request, 'pasutijumi.html', {"pasutijumi": vaicajums, "virsraksts": virsraksts, "skaits": skaits, "diapazona": range(int(skaits)), "ir_fotografs": ir_fotografs})
     else:
         return redirect("/")
 
