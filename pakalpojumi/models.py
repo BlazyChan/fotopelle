@@ -18,6 +18,11 @@ class PakalpojumaVeids(models.Model):
     def __str__(self):
         return self.nosaukums
 
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Pakalpojuma veids"
+        verbose_name_plural = "Pakalpojuma veidi"
+
 
 # Pasūtījuma modelis:
 class Pasutijums(models.Model):
@@ -45,6 +50,11 @@ class Pasutijums(models.Model):
     def __str__(self):
         return str(self.id) + "_" + str(self.pasutijuma_datums)
 
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Pasūtījums"
+        verbose_name_plural = "Pasūtījumi"
+
 
 # Bilžu galerija
 class BilzuGalerija(models.Model):
@@ -58,6 +68,11 @@ class BilzuGalerija(models.Model):
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
         return self.nosaukums
+
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Bilžu galerija"
+        verbose_name_plural = "Bilžu galerijas"
 
     # Izvada cik dienas ir palikušas līdz galerijas izdzēšanai (30 dienas no galerrijas izveidošanas datuma):
     @property
@@ -78,6 +93,11 @@ class Bilde(models.Model):
     lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.CASCADE)
 
     fails = models.ImageField(upload_to=bilzu_galerijas_cels)
+
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Bilde"
+        verbose_name_plural = "Bildes"
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):

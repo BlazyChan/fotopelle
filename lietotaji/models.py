@@ -78,6 +78,11 @@ class Lietotajs(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Lietotājs"
+        verbose_name_plural = "Lietotāji"
+
 
 # Fotogrāfa (lietotājs ar papildus lauku un citām atļaujām) modelis:
 class Fotografs(models.Model):
@@ -88,6 +93,11 @@ class Fotografs(models.Model):
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
         return str(self.lietotajs)
+
+    # Lai administratoru lapā modeļa nosaukums parādās akurāti:
+    class Meta:
+        verbose_name = "Fotogrāfs"
+        verbose_name_plural = "Fotogrāfi"
 
 
 # Jaunas lietotāja profila bildes pievienošanas gadījumā ir jāizdzēš vecā profila bilde:
