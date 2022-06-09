@@ -44,20 +44,20 @@ class LietotajaParvaldnieks(BaseUserManager):
 
 # Parasta lietotāja modelis:
 class Lietotajs(AbstractBaseUser):
-    epasts = models.EmailField(max_length=64, primary_key=True)
+    epasts = models.EmailField(max_length=64, primary_key=True, verbose_name="e-pasts")
 
     # Lauks, kurš tiks izmantots lai ieietu profilā:
     USERNAME_FIELD = 'epasts'
 
     # Django nepieciešamie lauki:
-    is_active = models.BooleanField(default=True)  # Var pieslēgties
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)  # Piekļuve administratora vietnei
-    is_superuser = models.BooleanField(default=False)  # Ir visas atļaujas (tās specifiski nenorādot)
+    is_active = models.BooleanField(default=True, verbose_name="ir aktīvs")  # Var pieslēgties
+    is_admin = models.BooleanField(default=False, verbose_name="ir administrators")
+    is_staff = models.BooleanField(default=False, verbose_name="ir personāls")  # Piekļuve administratora vietnei
+    is_superuser = models.BooleanField(default=False, verbose_name="ir superlietotājs")  # Ir visas atļaujas (tās specifiski nenorādot)
 
     # Šie vēlāk būs nepieciešamie lauki:
-    vards = models.CharField(max_length=32)
-    uzvards = models.CharField(max_length=32)
+    vards = models.CharField(max_length=32, verbose_name="vārds")
+    uzvards = models.CharField(max_length=32, verbose_name="uzvārds")
     telefona_numurs = models.CharField(max_length=15)
 
     # Pārējie lauki:
@@ -66,6 +66,15 @@ class Lietotajs(AbstractBaseUser):
 
     # Te jānorāda lietotāja pārvaldnieks (manager):
     objects = LietotajaParvaldnieks()
+
+    # Izvada vai lietotājs ir fotogrāfs:
+    def ir_fotografs(self):
+        try:
+            if Fotografs.objects.get(lietotajs=self):
+                return True
+        except:
+            return False
+    ir_fotografs.boolean = True
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
@@ -86,7 +95,7 @@ class Lietotajs(AbstractBaseUser):
 
 # Fotogrāfa (lietotājs ar papildus lauku un citām atļaujām) modelis:
 class Fotografs(models.Model):
-    lietotajs = models.OneToOneField(Lietotajs, to_field="epasts", on_delete=models.CASCADE, primary_key=True)
+    lietotajs = models.OneToOneField(Lietotajs, to_field="epasts", on_delete=models.CASCADE, primary_key=True, verbose_name="lietotājs")
     # Papildus lauki fotogrāfam:
     apraksts = models.TextField()
 
@@ -110,7 +119,8 @@ def jauna_profila_bilde(sender, instance, *args, **kwargs):
         except:
             jauna_bilde = None
 
-        if jauna_bilde != veca_bilde and str(Lietotajs.object.get(epasts=instance.epasts).profila_bilde) != "profila_bilde/noklusējuma_profila_bilde.png":
+        if jauna_bilde != veca_bilde and str(Lietotajs.object.get(
+                epasts=instance.epasts).profila_bilde) != "profila_bilde/noklusējuma_profila_bilde.png":
             if os.path.exists(veca_bilde):
                 os.remove(veca_bilde)
     except:

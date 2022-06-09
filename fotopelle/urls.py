@@ -20,3 +20,8 @@ urlpatterns = [
     # Lietnotnes "pakalpojumi" URLs:
     path('', include('pakalpojumi.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Izveido/norāda saiti uz bildēm
+
+# Administratora lapas teksta izmainīšana:
+admin.site.site_header = "FotoPelle"
+admin.site.site_title = "FotoPelle"
+admin.site.index_title = "Administratora lapa"
