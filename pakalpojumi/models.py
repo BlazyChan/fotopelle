@@ -112,6 +112,5 @@ class Bilde(models.Model):
     # Pēc ieraksta saglabāšanas izdzēš bildes atrašanās vietas lauku, jo tas vairs nav vajadzīgs un bilžu galerijai pārmaina datumu uz tagadējo datumu un laiku:
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.atrasanas_vieta = None
-        super().save(*args, **kwargs)
+        Bilde.objects.filter(id=self.id).update(atrasanas_vieta=None)
         BilzuGalerija.objects.filter(id=self.bilzu_galerija.id).update(izveidosanas_datums=timezone.now())

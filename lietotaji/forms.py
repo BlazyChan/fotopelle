@@ -39,6 +39,11 @@ class RegistracijasVeidlapa(UserCreationForm):
         epasts = self.cleaned_data["epasts"]
         return epasts.lower()
 
+    # Paroles apstiprināšanas lauks pēc noklusējuma netiek tīrīts, tāpēc tas notiek te:
+    def clean_password2(self):
+        password2 = self.cleaned_data["password2"]
+        return password2
+
     # Validājija reģistrēšanās veidlapai:
     def clean(self):
         dati = super(RegistracijasVeidlapa, self).clean()
@@ -71,7 +76,7 @@ class RegistracijasVeidlapa(UserCreationForm):
         if parole and apstiprinat_paroli:
             if parole != apstiprinat_paroli:
                 zina = "Abām parolēm ir jāsakrīt!"
-                self.add_error("password2", zina)
+                self.add_error("password1", zina)
 
         # Pārbauda vai parole satur lietotāja vārdu, uzvārdu vai epastu:
         modificeta_parole = parole.lower()

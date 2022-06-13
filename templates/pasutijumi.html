@@ -26,7 +26,8 @@
                         <th scope="col" data-field="pasutijuma_laiks">Pasūtījuma laiks</th>
 
                         {% if ir_fotografs %}
-                        <th scope="col" data-field="lietotaj_vards">Vārds</th>
+                        <th scope="col" data-field="lietotaja_epasta_adrese">E-pasta adrese</th>
+                        <th scope="col" data-field="lietotaja_vards">Vārds</th>
                         <th scope="col" data-field="lietotaja_uzvards">Uzvārds</th>
                         <th scope="col" data-field="lietotaja_telefona_numurs">Telefona numurs</th>
 
@@ -53,6 +54,7 @@
                                 <td>{{ pasutijums.pasutijuma_laiks }}</td>
 
                                 {% if ir_fotografs %}
+                                <td>{{ pasutijums.lietotajs.epasts }}</td>
                                 <td>{{ pasutijums.lietotajs.vards }}</td>
                                 <td>{{ pasutijums.lietotajs.uzvards }}</td>
                                 <td style="white-space: nowrap;">{{ pasutijums.lietotajs.telefona_numurs|izdailot_telefona_numuru }}</td>
