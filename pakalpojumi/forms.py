@@ -31,4 +31,4 @@ class PasutijumaVeidlapa(ModelForm):
             self.fields[str(lauks)].widget.attrs.update(widget_attrs)
 
         # Priekš pakalpojuma apraksta un galerijas (izsauc funkciju, kad pārmaina izvēlnes vērtību):
-        self.fields["pakalpojuma_veids"].widget.attrs.update({"onchange": "PakalpojumaApraksts()"})
+        self.fields["pakalpojuma_veids"].widget.attrs.update({"onchange": "PakalpojumaApraksts(); BilzuIzdrukasKopejaCena();"})

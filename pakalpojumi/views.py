@@ -108,7 +108,8 @@ def bilzu_galerijas_saite(request, id):
     if request.user.is_anonymous:
         return redirect('/pasutijumi/')
     else:
-        if request.user.epasts == pasutijums.fotografs or request.user.is_superuser:
+        # if request.user.epasts == pasutijums.fotografs or request.user.is_superuser:
+        if Fotografs.objects.filter(lietotajs=request.user.epasts) or request.user.is_superuser:
             ir_fotografs = True
             # Ja fotogrāfs vai super lietotājs mēģina saglabāt jaunas bildes:
             if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == "POST":
