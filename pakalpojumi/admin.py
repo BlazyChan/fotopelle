@@ -53,6 +53,27 @@ class PasutijumsAdmin(admin.ModelAdmin):
             del actions["delete_selected"]
         return actions
 
+    # Pārveido tekstu, kas ir virs tabulas administratora lapā:
+    def changelist_view(self, request, extra_context=None):
+        virsraksts = {"title": "Atlasiet pasūtījumu vai vairākus pasūtījumus, lai tos mainītu"}
+        return super().changelist_view(request, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:
+    def add_view(self, request, form_url='', extra_context=None):
+        virsraksts = {"title": "Pievienot jaunu pasūtījumu"}
+        return super().add_view(request, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs ieraksta rediģēšanas laukiem administratora lapā:
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        virsraksts = {"title": "Rediģēt pasūtījuma datus"}
+        return super().change_view(request, object_id, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas atrodas dzēšanas apstiprināšanas administratora lapā:
+    def delete_view(self, request, object_id, extra_context=None):
+        nosaukums = "pasūtījumu"
+        virsraksts = {"title": "Vai esat pārliecināts, ka vēlaties dzēst šo " + nosaukums + "?", "object_name": nosaukums}
+        return super().delete_view(request, object_id, extra_context=virsraksts)
+
 
 admin.site.register(Pasutijums, PasutijumsAdmin)
 
@@ -69,6 +90,27 @@ class PakalpojumaVeidsAdmin(admin.ModelAdmin):
         if "delete_selected" in actions:
             del actions["delete_selected"]
         return actions
+
+    # Pārveido tekstu, kas ir virs tabulas administratora lapā:
+    def changelist_view(self, request, extra_context=None):
+        virsraksts = {"title": "Atlasiet pakalpojuma veidu vai vairākus pakalpojuma veidus, lai tos mainītu"}
+        return super().changelist_view(request, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:
+    def add_view(self, request, form_url='', extra_context=None):
+        virsraksts = {"title": "Pievienot jaunu pakalpojuma veidu"}
+        return super().add_view(request, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs ieraksta rediģēšanas laukiem administratora lapā:
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        virsraksts = {"title": "Rediģēt pakalpojuma veida datus"}
+        return super().change_view(request, object_id, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas atrodas dzēšanas apstiprināšanas administratora lapā:
+    def delete_view(self, request, object_id, extra_context=None):
+        nosaukums = "pakalpojuma veidu"
+        virsraksts = {"title": "Vai esat pārliecināts, ka vēlaties dzēst šo " + nosaukums + "?", "object_name": nosaukums}
+        return super().delete_view(request, object_id, extra_context=virsraksts)
 
 
 admin.site.register(PakalpojumaVeids, PakalpojumaVeidsAdmin)
@@ -87,6 +129,27 @@ class BilzuGalerijaAdmin(admin.ModelAdmin):
             del actions["delete_selected"]
         return actions
 
+    # Pārveido tekstu, kas ir virs tabulas administratora lapā:
+    def changelist_view(self, request, extra_context=None):
+        virsraksts = {"title": "Atlasiet bilžu galeriju vai vairākus bilžu galerijas, lai tās mainītu"}
+        return super().changelist_view(request, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:
+    def add_view(self, request, form_url='', extra_context=None):
+        virsraksts = {"title": "Pievienot jaunu bilžu galeriju"}
+        return super().add_view(request, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs ieraksta rediģēšanas laukiem administratora lapā:
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        virsraksts = {"title": "Rediģēt bilžu galerijas datus"}
+        return super().change_view(request, object_id, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas atrodas dzēšanas apstiprināšanas administratora lapā:
+    def delete_view(self, request, object_id, extra_context=None):
+        nosaukums = "bilžu galeriju"
+        virsraksts = {"title": "Vai esat pārliecināts, ka vēlaties dzēst šo " + nosaukums + "?", "object_name": nosaukums}
+        return super().delete_view(request, object_id, extra_context=virsraksts)
+
 
 admin.site.register(BilzuGalerija, BilzuGalerijaAdmin)
 
@@ -103,6 +166,27 @@ class BildeAdmin(admin.ModelAdmin):
         if "delete_selected" in actions:
             del actions["delete_selected"]
         return actions
+
+    # Pārveido tekstu, kas ir virs tabulas administratora lapā:
+    def changelist_view(self, request, extra_context=None):
+        virsraksts = {"title": "Atlasiet bildi vai vairākus bildes, lai tās mainītu"}
+        return super().changelist_view(request, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:
+    def add_view(self, request, form_url='', extra_context=None):
+        virsraksts = {"title": "Pievienot jaunu bildi"}
+        return super().add_view(request, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas ir virs ieraksta rediģēšanas laukiem administratora lapā:
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        virsraksts = {"title": "Rediģēt bildes datus"}
+        return super().change_view(request, object_id, form_url, extra_context=virsraksts)
+
+    # Pārveido tekstu, kas atrodas dzēšanas apstiprināšanas administratora lapā:
+    def delete_view(self, request, object_id, extra_context=None):
+        nosaukums = "bildi"
+        virsraksts = {"title": "Vai esat pārliecināts, ka vēlaties dzēst šo " + nosaukums + "?", "object_name": nosaukums}
+        return super().delete_view(request, object_id, extra_context=virsraksts)
 
 
 admin.site.register(Bilde, BildeAdmin)
