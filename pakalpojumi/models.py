@@ -1,7 +1,10 @@
+import os
+import shutil
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
-from lietotaji.models import Lietotajs, Fotografs
+from fotopelle.settings import MEDIA_ROOT
+from lietotaji.models import Lietotajs, Fotografs, lietotaja_profila_bildes_cels
 from datetime import date, timedelta
 from django.utils import timezone
 
@@ -60,7 +63,7 @@ class Pasutijums(models.Model):
         verbose_name_plural = "Pasūtījumi"
 
 
-# Bilžu galerija
+# Bilžu galerija:
 class BilzuGalerija(models.Model):
     id = models.AutoField(primary_key=True)
     nosaukums = models.CharField(max_length=128)
@@ -79,6 +82,16 @@ class BilzuGalerija(models.Model):
         verbose_name = "Bilžu galerija"
         verbose_name_plural = "Bilžu galerijas"
 
+    # Galerijas ieraksta izdzēšanas gadījumā ir jāizdzēš galerijas mapīte ar visām galerijas bildēm:
+    @receiver(post_delete)
+    def izdzest_galerijas_mapi(instance, *args, **kwargs):
+        if type(instance) == BilzuGalerija:
+            pasutijums = Pasutijums.objects.get(id=int(str(instance.pasutijums)))
+            lietotajs = pasutijums.lietotajs
+            lietotaja_profila_mapes_cels = lietotaja_profila_bildes_cels(lietotajs, filename="").split("/")[0]
+            # Tiek izdzēsta bilžu galerijas mapīte:
+            shutil.rmtree(str(MEDIA_ROOT) + "\\" + lietotaja_profila_mapes_cels + "\\" + str(instance.id) + "_" + str(instance.nosaukums))
+
     # Izvada cik dienas ir palikušas līdz galerijas izdzēšanai (30 dienas no galerrijas izveidošanas datuma):
     @property
     def dienas_lidz_galerijas_dzesanai(self):
@@ -91,11 +104,11 @@ class Bilde(models.Model):
     id = models.AutoField(primary_key=True)
 
     # Vieta, kur augšupielādēs bildi:
-    atrasanas_vieta = models.CharField(max_length=286, null=True, verbose_name="atrašanās vieta")
+    atrasanas_vieta = models.CharField(max_length=300, null=True, verbose_name="atrašanās vieta")
 
     # Ārējā atslēga:
     bilzu_galerija = models.ForeignKey(BilzuGalerija, to_field="id", on_delete=models.CASCADE,
-                                       verbose_name="bilžu galerija", null=False)
+                                       verbose_name="bilžu galerija", null=False, max_length=400)
     lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.CASCADE, verbose_name="lietotājs")
 
     fails = models.ImageField(upload_to=bilzu_galerijas_cels)
@@ -108,6 +121,13 @@ class Bilde(models.Model):
     # Tas ko izvada, ja izsauc šī moduļa instanci:
     def __str__(self):
         return str(self.id)
+
+    # Bildes ieraksta izdzēšanas gadījumā ir jāizdzēš bilde no galerijas mapītes:
+    @receiver(post_delete)
+    def izdzest_galerijas_mapi(instance, *args, **kwargs):
+        if type(instance) == Bilde:
+            # Tiek izdzēsta bilde no galerijas mapītes:
+            os.remove(str(MEDIA_ROOT) + "\\" + str(instance.fails))
 
     # Pēc ieraksta saglabāšanas izdzēš bildes atrašanās vietas lauku, jo tas vairs nav vajadzīgs un bilžu galerijai pārmaina datumu uz tagadējo datumu un laiku:
     def save(self, *args, **kwargs):

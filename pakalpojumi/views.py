@@ -9,6 +9,7 @@ import base64
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
+from django.utils.crypto import get_random_string
 
 
 # Lapas "Pasūtīt" mainīgie:
@@ -60,7 +61,7 @@ def pasutit(request):
             for bilde in bildes:
                 base64_fails = bilde.split("base64,")[1]
                 satura_veids = bilde.split(";")[0].split("data:")[1].split("+")[0]
-                bildes_nosaukums = "bilde" + "." + satura_veids.split("/")[1]
+                bildes_nosaukums = get_random_string(7) + "." + satura_veids.split("/")[1]
 
                 f = io.BytesIO(base64.b64decode(base64_fails))
                 bilde = InMemoryUploadedFile(f, field_name='picture', name=bildes_nosaukums, content_type=satura_veids,
@@ -104,50 +105,57 @@ def pasutijumi(request):
 # Bilžu galerijas lapa (balstoties uz pasūtījumu):
 def bilzu_galerijas_saite(request, id):
     id = str(id)
-    pasutijums = Pasutijums.objects.get(id=id)
-    if request.user.is_anonymous:
-        return redirect('/pasutijumi/')
+    if Pasutijums.objects.filter(id=id):
+        pasutijums = Pasutijums.objects.get(id=id)
+        if request.user.is_anonymous:
+            return redirect('/pasutijumi/')
+        else:
+            # if request.user.epasts == pasutijums.fotografs or request.user.is_superuser:
+            if Fotografs.objects.filter(lietotajs=request.user.epasts) or request.user.is_superuser:
+                ir_fotografs = True
+                # Ja fotogrāfs vai super lietotājs mēģina saglabāt jaunas bildes:
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == "POST":
+                    bilzu_galerija = BilzuGalerija.objects.get(pasutijums=pasutijums)
+                    bildes = request.POST.getlist('django_bildes[]')
+                    if bildes and bilzu_galerija:
+                        for bilde in bildes:
+                            base64_fails = bilde.split("base64,")[1]
+                            satura_veids = bilde.split(";")[0].split("data:")[1].split("+")[0]
+                            bildes_nosaukums = get_random_string(7) + "." + satura_veids.split("/")[1]
+
+                            f = io.BytesIO(base64.b64decode(base64_fails))
+                            bilde = InMemoryUploadedFile(f, field_name='picture', name=bildes_nosaukums,
+                                                         content_type=satura_veids,
+                                                         size=sys.getsizeof(f), charset=None)
+                            # Izveido bildes objektu:
+                            Bilde.objects.create(
+                                atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")),
+                                                                                str(bilzu_galerija.id) + "_" + str(
+                                                                                    bilzu_galerija.nosaukums))),
+                                fails=bilde,
+                                lietotajs=request.user,
+                                bilzu_galerija=bilzu_galerija
+                            )
+            else:
+                ir_fotografs = False
+            #
+            if BilzuGalerija.objects.filter(pasutijums=pasutijums.id):
+                galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
+                bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
+                skaits = bildes.count()
+
+                # Pārbauda vai bilžu galerijas bildes pieder pašreizējam lietotājam:
+                if bildes.filter(lietotajs=request.user):
+                    pasa_bildes = True
+                else:
+                    pasa_bildes = False
+
+                return render(request, 'galerija.html',
+                              {"galerija": galerija, "bildes": bildes, "skaits": skaits, "ir_fotografs": ir_fotografs, "id": id, "pasa_bildes": pasa_bildes})
+            else:
+                return redirect('/pasutijumi/')
     else:
-        # if request.user.epasts == pasutijums.fotografs or request.user.is_superuser:
-        if Fotografs.objects.filter(lietotajs=request.user.epasts) or request.user.is_superuser:
-            ir_fotografs = True
-            # Ja fotogrāfs vai super lietotājs mēģina saglabāt jaunas bildes:
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == "POST":
-                bilzu_galerija = BilzuGalerija.objects.get(pasutijums=pasutijums)
-                bildes = request.POST.getlist('django_bildes[]')
-                if bildes and bilzu_galerija:
-                    for bilde in bildes:
-                        base64_fails = bilde.split("base64,")[1]
-                        satura_veids = bilde.split(";")[0].split("data:")[1].split("+")[0]
-                        bildes_nosaukums = "bilde" + "." + satura_veids.split("/")[1]
-
-                        f = io.BytesIO(base64.b64decode(base64_fails))
-                        bilde = InMemoryUploadedFile(f, field_name='picture', name=bildes_nosaukums,
-                                                     content_type=satura_veids,
-                                                     size=sys.getsizeof(f), charset=None)
-                        # Izveido bildes objektu:
-                        Bilde.objects.create(
-                            atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")),
-                                                                            str(bilzu_galerija.id) + "_" + str(
-                                                                                bilzu_galerija.nosaukums))),
-                            fails=bilde,
-                            lietotajs=request.user,
-                            bilzu_galerija=bilzu_galerija
-                        )
-        else:
-            ir_fotografs = False
-        galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
-        bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
-        skaits = bildes.count()
-
-        # Pārbauda vai bilžu galerijas bildes pieder pašreizējam lietotājam:
-        if bildes.filter(lietotajs=request.user):
-            pasa_bildes = True
-        else:
-            pasa_bildes = False
-
-        return render(request, 'galerija.html',
-                      {"galerija": galerija, "bildes": bildes, "skaits": skaits, "ir_fotografs": ir_fotografs, "id": id, "pasa_bildes": pasa_bildes})
+        return redirect('/pasutijumi/')
 
 
 # Bilžu izdzēšana, balstoties uz pasūtījumu un lietotāju:
