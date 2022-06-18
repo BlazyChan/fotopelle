@@ -25,12 +25,20 @@
 
         <p>Bilžu skaits: <strong>{{ skaits }}</strong></p>
 
-        <div class="row">
-            {% for bilde in bildes %}
-            <div class="col-sm-6 col-md-4 mb-3">
-                <img class="img-thumbnail" src="{{ bilde.fails.url }}" alt="Bilde">
-            </div>
-            {% endfor %}
+        <div class="bilzu_galerija">
+                {%  widthratio bildes.count 3 1 as bildes_kolonna %}
+                {% widthratio bildes_kolonna 1 2 as otra_bildes_kolonna %}
+                {% widthratio bildes_kolonna 1 3 as tresa_bildes_kolonna %}
+
+                {% for bilde in bildes %}
+                    {% if forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" or forloop.counter == tresa_bildes_kolonna|add:"1" %}</div>{% endif %}
+                    {% if forloop.counter == 1 or forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" or forloop.counter == tresa_bildes_kolonna|add:"1" %}<div class="bilzu_kolonna">{% endif %}
+                    <div class="galerijas_grupa">
+                        <img src="{{ bilde.fails.url }}" alt="Bilde" class="galerijas_bilde img-thumbnail">
+                        <a class="bilzu_galerijas_bildes_lejupielade rounded" download href="{{ bilde.fails.url }}">Lejupielādēt bildi</a>
+                    </div>
+                    {% if forloop.counter == bildes.count %}</div>{% endif %}
+                {% endfor %}
         </div>
 
     </div>
@@ -56,46 +64,65 @@
             bilzu_augsupielade.value = "";
         }
 
-        bilzu_augsupielade.addEventListener("change", function() {
+        if (bilzu_augsupielade) {
+            bilzu_augsupielade.addEventListener("change", function() {
+                var bildes_numuri = Object.keys(this.files);
+                var bildes = this.files;
 
-            var bildes_numuri = Object.keys(this.files);
-            var bildes = this.files;
+                if (bildes) {
+                    bildes_numuri.forEach(numurs => {
+                        bilde = bildes[numurs]
 
-            if (bildes) {
-                bildes_numuri.forEach(numurs => {
-                    bilde = bildes[numurs]
+                        var bildes_url = new FileReader();
 
-                    var bildes_url = new FileReader();
-
-                    bildes_url.addEventListener("load", function() {
-                        // Izveido jaunu div tagu:
-                        var div = document.createElement("div");
-                        div.setAttribute("class", "blizu_apskata_bildes_lauks");
-                        bilzu_apskats.appendChild(div);
+                        bildes_url.addEventListener("load", function() {
+                            // Izveido jaunu div tagu:
+                            var div = document.createElement("div");
+                            div.setAttribute("class", "blizu_apskata_bildes_lauks");
+                            bilzu_apskats.appendChild(div);
 
 
-                        // Izveido jaunu bildi un pievieno to bilžu apskatā::
-                        var bilde = new Image();
-                        bilde.src = this.result;
-                        bilde.classList = "blizu_apskata_bilde rounded";
-                        bilde.height = 100;
-                        div.appendChild(bilde);
+                            // Izveido jaunu bildi un pievieno to bilžu apskatā::
+                            var bilde = new Image();
+                            bilde.src = this.result;
+                            bilde.classList = "blizu_apskata_bilde rounded";
+                            bilde.height = 100;
+                            div.appendChild(bilde);
 
-                        // Pievieno bildi sarakstam:
-                        django_bildes.push(this.result);
+                            // Pievieno bildi sarakstam:
+                            django_bildes.push(this.result);
 
-                        // Izveido jaunu pogu bildei:
-                        var poga = document.createElement("button");
-                        poga.type = "button";
-                        poga.classList = "btn-close";
-                        poga.setAttribute("onclick", "IzdzestBildi(this)")
-                        div.appendChild(poga);
+                            // Izveido jaunu pogu bildei:
+                            var poga = document.createElement("button");
+                            poga.type = "button";
+                            poga.classList = "btn-close";
+                            poga.setAttribute("onclick", "IzdzestBildi(this)")
+                            div.appendChild(poga);
+                        });
+
+                        bildes_url.readAsDataURL(bilde);
                     });
+                }
+            });
 
-                    bildes_url.readAsDataURL(bilde);
-                });
-            }
-        });
+            // Augšupielādes pogas dizains:
+            var augsupieladet_poga = document.getElementById("augsupieladet_poga");
+
+            augsupieladet_poga.addEventListener("click", function() {
+                augsupieladet_poga.blur();
+                bilzu_augsupielade.click();
+            });
+
+            // Poga, kas izdzēš/noņem visas augšupielādes bildes:
+            nonemt_poga.addEventListener("click", function() {
+                nonemt_poga.blur();
+                django_bildes = [];
+                while (bilzu_apskats.firstChild) {
+                    bilzu_apskats.removeChild(bilzu_apskats.lastChild);
+                }
+            });
+
+        }
 
         // Aizsūta bildes, lai Django tās saņem:
         function SutitBildes() {
@@ -114,23 +141,6 @@
                 },
             });
         }
-
-        // Augšupielādes pogas dizains:
-        var augsupieladet_poga = document.getElementById("augsupieladet_poga");
-
-        augsupieladet_poga.addEventListener("click", function() {
-            augsupieladet_poga.blur();
-            bilzu_augsupielade.click();
-        });
-
-        // Poga, kas izdzēš/noņem visas augšupielādes bildes:
-        nonemt_poga.addEventListener("click", function() {
-            nonemt_poga.blur();
-            django_bildes = [];
-            while (bilzu_apskats.firstChild) {
-                bilzu_apskats.removeChild(bilzu_apskats.lastChild);
-            }
-        });
 
     </script>
 

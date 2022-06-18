@@ -26,11 +26,14 @@ td, p {
 
 .img-thumbnail {
     border: 3px solid purple;
+    padding: 0;
 }
 
+/*
 .img-thumbnail:hover {
     border: 3px solid yellow;
 }
+*/
 
 .naudas_zime {
     color: blue;
@@ -222,8 +225,85 @@ input[type=number] {
     background: white;
 }
 
+/*
 .blizu_apskata_bilde:hover {
     border: 2px solid yellow;
+}
+*/
+
+/* Bilžu galerijas noformēšana: */
+.bilzu_galerija {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.bilzu_kolonna {
+    flex: 33%;
+    max-width: 33%;
+}
+
+.bilzu_kolonna img {
+    vertical-align: middle;
+    width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+    .bilzu_kolonna {
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .bilzu_kolonna {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+.galerijas_grupa, .blizu_apskata_bildes_lauks {
+    position: relative;
+    margin-bottom: 3px;
+    margin-right: 3px;
+}
+
+.galerijas_bilde {
+    cursor: pointer;
+}
+
+.bilzu_galerijas_bildes_lejupielade, .bildes_aizversana {
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(128, 0, 128, 0.7); /* purple (violets) */
+    transform: scale(0);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.galerijas_bilde:hover + .bilzu_galerijas_bildes_lejupielade {
+    transform: scale(1);
+}
+
+.bildes_aizversana {
+    border-style: none;
+    font-size: 50px;
+}
+
+.blizu_apskata_bilde:hover + .bildes_aizversana {
+    transform: scale(1);
+    border-color: purple;
+}
+
+.bilzu_galerijas_bildes_lejupielade:hover, .bildes_aizversana:hover {
+    transform: scale(1);
+    color: white;
 }
 
 

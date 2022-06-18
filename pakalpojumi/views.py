@@ -1,3 +1,4 @@
+from django.core.files.images import get_image_dimensions
 from django.shortcuts import render, redirect
 from .forms import PasutijumaVeidlapa
 from django.contrib import messages
@@ -138,10 +139,13 @@ def bilzu_galerijas_saite(request, id):
                             )
             else:
                 ir_fotografs = False
-            #
+
+            # Ja bilžu galerijā ir bildes:
             if BilzuGalerija.objects.filter(pasutijums=pasutijums.id):
                 galerija = BilzuGalerija.objects.get(pasutijums=pasutijums.id)
                 bildes = Bilde.objects.filter(bilzu_galerija=galerija.id)
+
+                # Bilžu kopējais skaits galerijā:
                 skaits = bildes.count()
 
                 # Pārbauda vai bilžu galerijas bildes pieder pašreizējam lietotājam:

@@ -18,7 +18,6 @@ class PasutijumaVeidlapa(ModelForm):
 
     apraksts = forms.CharField(widget=forms.Textarea(), required=False)
 
-
     class Meta:
         model = Pasutijums
         fields = ("pasutijuma_datums", "pasutijuma_laiks", "pakalpojuma_veids", "kopeja_cena", "apraksts",)
@@ -31,4 +30,5 @@ class PasutijumaVeidlapa(ModelForm):
             self.fields[str(lauks)].widget.attrs.update(widget_attrs)
 
         # Priekš pakalpojuma apraksta un galerijas (izsauc funkciju, kad pārmaina izvēlnes vērtību):
-        self.fields["pakalpojuma_veids"].widget.attrs.update({"onchange": "PakalpojumaApraksts(); BilzuIzdrukasKopejaCena();"})
+        self.fields["pakalpojuma_veids"].widget.attrs.update(
+            {"onchange": "PakalpojumaApraksts(); BilzuIzdrukasKopejaCena();"})

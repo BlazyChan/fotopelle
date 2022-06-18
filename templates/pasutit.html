@@ -46,19 +46,21 @@
             <div class="pakalpojuma_apraksta_grupa mb-3">
                 <div class="mb-3">
                     <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
-                    <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none;"></textarea>
+                    <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="background: lightblue; display: none;"></textarea>
                 </div>
 
                 <label class="form-label" id="pakalpojuma_cenas_virsraksts" style="display: none;"></label>
                 <div class="input-group mb-3">
-                    <input readonly class="form-control" id="pakalpojuma_cena" style="display: none;"/>
+                    <input readonly class="form-control" id="pakalpojuma_cena" style="background: lightblue; display: none;"/>
                     <span class="input-group-text naudas_zime">€</span>
                 </div>
 
                 <div style="display: none;" id="bilzu_augsupielades_bloks">
-                    <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/*" style="display: none;">
-                    <button type="button" class="btn" id="augsupieladet_poga">Augšupielādēt bildes</button>
-                    <button type="button" class="btn" id="nonemt_poga">Izņemt visas bildes</button>
+                    <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/png, image/jpg, image/jpeg" style="display: none;">
+                    <div style="width: 100%; display: flex; margin-bottom: 6px;">
+                        <button type="button" class="btn" id="augsupieladet_poga" style="width: 50%; margin-right: 6px;">Augšupielādēt bildes</button>
+                        <button type="button" class="btn" id="nonemt_poga" style="width: 50%;">Izņemt visas bildes</button>
+                    </div>
                     <div id="bilzu_apskats"></div>
                 </div>
             </div>
@@ -78,7 +80,7 @@
                 {{ form.errors.apraksts }}
             </div>
 
-            <button type="submit" onclick="SutitBildes()" class="btn">Izveidot pasūtījumu</button>
+            <button type="submit" onclick="SutitBildes()" class="btn" style="width: 100%;">Izveidot pasūtījumu</button>
 
         </form>
 
@@ -95,8 +97,8 @@
 
             document.getElementById("pakalpojuma_apraksta_virsraksts").style = "display: block;";
             document.getElementById("pakalpojuma_cenas_virsraksts").style = "display: block;";
-            document.getElementById("pakalpojuma_apraksts").style = "display: block;";
-            document.getElementById("pakalpojuma_cena").style = "display: block;";
+            document.getElementById("pakalpojuma_apraksts").style = "display: block; background: lightblue;";
+            document.getElementById("pakalpojuma_cena").style = "display: block; background: lightblue;";
 
             var pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
 
@@ -177,6 +179,7 @@
                         // Izveido jaunu div tagu:
                         var div = document.createElement("div");
                         div.setAttribute("class", "blizu_apskata_bildes_lauks");
+                        div.style = "display:inline-block;";
                         bilzu_apskats.appendChild(div);
 
 
@@ -185,6 +188,7 @@
                         bilde.src = this.result;
                         bilde.classList = "blizu_apskata_bilde rounded";
                         bilde.height = 100;
+                        bilde.style = "display:inline-block;";
                         div.appendChild(bilde);
 
                         // Pievieno bildi sarakstam:
@@ -193,7 +197,8 @@
                         // Izveido jaunu pogu bildei:
                         var poga = document.createElement("button");
                         poga.type = "button";
-                        poga.classList = "btn-close";
+                        poga.innerHTML = "X";
+                        poga.classList = "bildes_aizversana rounded";
                         poga.setAttribute("onclick", "IzdzestBildi(this)")
                         div.appendChild(poga);
 

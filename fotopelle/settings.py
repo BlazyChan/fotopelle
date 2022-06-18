@@ -133,3 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Lietotāja modelis:
 AUTH_USER_MODEL = 'lietotaji.Lietotajs'
+
+# Maksimālais atļaujamais augšupielādes datu lielums:
+DATA_UPLOAD_MAX_MEMORY_SIZE = 17179869184  # 2 GB

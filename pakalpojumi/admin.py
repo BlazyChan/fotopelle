@@ -156,7 +156,7 @@ admin.site.register(BilzuGalerija, BilzuGalerijaAdmin)
 
 # Bildes (darbības un ierakstu atrādīšana administratoru panelī):
 class BildeAdmin(admin.ModelAdmin):
-    list_display = ["id", "fails", "bilzu_galerija", "lietotajs"]
+    list_display = ["id", "fails", "bilzu_galerija_id", "lietotajs"]
     ordering = ["id"]
     actions = [izdzest_bildes]
 
