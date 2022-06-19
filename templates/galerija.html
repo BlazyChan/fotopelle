@@ -15,7 +15,7 @@
                 <div style="width: 100%; display: flex; margin-bottom: 6px;">
                     <button type="button" class="btn" id="augsupieladet_poga" style="width: 33%; margin-right: 6px;">Augšupielādēt bildes</button>
                     <button type="button" class="btn" id="nonemt_poga" style="width: 33%; margin-right: 6px;">Izņemt visas bildes</button>
-                    <button type="button" class="btn" id="sablabat_poga" style="width: 33%;" onclick="SutitBildes()">Saglabāt</button>
+                    <button type="button" class="btn" id="sablabat_poga" style="width: 33%;" onclick="SutitBildes();">Saglabāt</button>
                 </div>
                 <div id="bilzu_apskats"></div>
             </div>
@@ -28,13 +28,13 @@
         <p>Bilžu skaits: <strong>{{ skaits }}</strong></p>
 
         <div class="bilzu_galerija">
-                {%  widthratio bildes.count 3 1 as bildes_kolonna %}
+                {% widthratio bildes.count 3 1 as bildes_kolonna %}
                 {% widthratio bildes_kolonna 1 2 as otra_bildes_kolonna %}
                 {% widthratio bildes_kolonna 1 3 as tresa_bildes_kolonna %}
 
                 {% for bilde in bildes %}
-                    {% if forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" or forloop.counter == tresa_bildes_kolonna|add:"1" %}</div>{% endif %}
-                    {% if forloop.counter == 1 or forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" or forloop.counter == tresa_bildes_kolonna|add:"1" %}<div class="bilzu_kolonna">{% endif %}
+                    {% if forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" %}</div>{% endif %}
+                    {% if forloop.counter == 1 or forloop.counter == bildes_kolonna|add:"1" or forloop.counter == otra_bildes_kolonna|add:"1" %}<div class="bilzu_kolonna">{% endif %}
                     <div class="galerijas_grupa">
                         <img src="{{ bilde.fails.url }}" alt="Bilde" class="galerijas_bilde img-thumbnail">
                         <a class="bilzu_galerijas_bildes_lejupielade rounded" download href="{{ bilde.fails.url }}">Lejupielādēt bildi</a>

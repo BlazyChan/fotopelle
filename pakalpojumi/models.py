@@ -108,10 +108,10 @@ class Bilde(models.Model):
 
     # Ārējā atslēga:
     bilzu_galerija = models.ForeignKey(BilzuGalerija, to_field="id", on_delete=models.CASCADE,
-                                       verbose_name="bilžu galerija", null=False, max_length=400)
+                                       verbose_name="bilžu galerija", null=False)
     lietotajs = models.ForeignKey(Lietotajs, to_field="epasts", on_delete=models.CASCADE, verbose_name="lietotājs")
 
-    fails = models.ImageField(upload_to=bilzu_galerijas_cels)
+    fails = models.ImageField(upload_to=bilzu_galerijas_cels, max_length=400)
 
     # Lai administratoru lapā modeļa nosaukums parādās akurāti:
     class Meta:
