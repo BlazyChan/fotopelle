@@ -6,7 +6,7 @@
     --k4: Lightblue;
 }
 
-h1, label, strong, th {
+h1, label, strong, th, h4 {
     color: var(--k1);
 }
 

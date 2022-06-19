@@ -21,6 +21,7 @@
 
         <h1>Sākums</h1>
 
+        <h4>Piedāvātie pakalpojumi</h4>
         <div class="pakalpojuma_apraksta_grupa mb-3">
             <div class="mb-3">
                 <label class="form-label">Pakalpojuma veids</label>
@@ -37,6 +38,34 @@
                 <input readonly class="form-control" id="pakalpojuma_cena" style="display: none; background: var(--k4);"/>
                 <span class="input-group-text naudas_zime">€</span>
             </div>
+        </div>
+
+        <div class="mb-3">
+            {% for fotografa_apraksts in fotografu_apraksti %}
+            <div class="mb-3 fotografa_informacijas_apskate">
+                <h1>{{ fotografa_apraksts.lietotajs.vards }} {{ fotografa_apraksts.lietotajs.uzvards }}</h1>
+
+                <h4>Kontaktinformācija</h4>
+                <div class="mb-3">
+                    <label class="form-label">E-pasts</label>
+                    <input readonly value="{{ fotografa_apraksts.lietotajs.epasts }}" class="form-control" style="background: var(--k4);"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Telefona numurs</label>
+                    <input readonly value="{{ fotografa_apraksts.lietotajs.telefona_numurs }}" class="form-control" style="background: var(--k4);"/>
+                </div>
+
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <img class="img-thumbnail rounded" src="{{ fotografa_apraksts.lietotajs.profila_bilde.url }}" alt="Fotogrāfa bilde">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apraksts</label>
+                        <textarea readonly class="form-control" style="background: var(--k4);">{{ fotografa_apraksts.apraksts }}</textarea>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
 
     </div>

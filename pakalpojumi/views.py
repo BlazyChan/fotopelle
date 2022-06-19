@@ -28,7 +28,7 @@ def sakumlapa(request):
     # Tiek iegūta informācija par fotogrāfiem (paigaidām vienu):
     fotografu_apraksti = Fotografs.objects.filter()
     # Pārveido modeli par JSON simbolu virkni:
-    fotografu_apraksti = serializers.serialize("json", fotografu_apraksti, cls=DjangoJSONEncoder)
+    # fotografu_apraksti = serializers.serialize("json", fotografu_apraksti, cls=DjangoJSONEncoder)
 
     return render(request, 'sakumlapa.html', {"pakalpojumu_apraksti": pakalpojumu_apraksti, "fotografu_apraksti": fotografu_apraksti})
 
