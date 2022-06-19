@@ -267,4 +267,20 @@
             }
         });
     </script>
+
+    <!-- Garā teksta lauka augstuma jeb līniju iestatīšana: -->
+    <script>
+        const teksta_lauks = document.getElementById("pakalpojuma_apraksts");
+        const pakalpojuma_veids = document.getElementById("id_pakalpojuma_veids");
+
+         function TekstaLaukaAugstums() {
+            var teksts = teksta_lauks.value;
+            var linijas = teksts.split("\n");
+            const skaits = linijas .length;
+            teksta_lauks.rows = skaits;
+         }
+
+        pakalpojuma_veids.addEventListener("change", TekstaLaukaAugstums);
+        window.onload = TekstaLaukaAugstums();
+    </script>
 {% endblock %}

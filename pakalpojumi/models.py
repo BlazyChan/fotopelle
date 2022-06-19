@@ -70,7 +70,7 @@ class BilzuGalerija(models.Model):
     izveidosanas_datums = models.DateTimeField(auto_now_add=True, verbose_name="izveidošanas datums")
 
     # Ārējā atslēga:
-    pasutijums = models.ForeignKey(Pasutijums, to_field="id", on_delete=models.CASCADE, null=False,
+    pasutijums = models.OneToOneField(Pasutijums, to_field="id", on_delete=models.CASCADE, null=False,
                                    verbose_name="pasūtījums")
 
     # Tas ko izvada, ja izsauc šī moduļa instanci:

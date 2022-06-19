@@ -1,9 +1,13 @@
 /* Krāsu noformējums (piemērs, kā lietot - "var(--krāsa)"): */
 :root {
-    --k1: Red;
+    --k1: Crimson;
     --k2: Blue;
-    --k3: Yellow;
-    --k4: Lightblue;
+    --k3: Teal;
+    --k4: Azure;
+    --k5: Purple;
+    --k6: CornSilk;
+    --k7: Bisque;
+    --k8: Snow;
 }
 
 h1, label, strong, th, h4 {
@@ -20,8 +24,12 @@ td, p {
 }
 
 .img-thumbnail {
-    border: 3px solid purple;
+    border: 3px solid var(--k5);
     padding: 0;
+}
+
+#nav-profila-bilde {
+    border: 2px solid var(--k5);
 }
 
 /*
@@ -36,12 +44,12 @@ td, p {
     border: 1px solid var(--k2);
 }
 
-.tabulas_galvene {
-    background: dimgray;
+.tabulas_galvene, .table th {
+    background: var(--k6);
 }
 
 .table-group-divider, .table-bordered {
-    border-color: gray;
+    border-color: var(--k7);
 }
 
 
@@ -52,11 +60,13 @@ td, p {
     box-shadow: none;
 }
 
+/* Ikona ar purple (violeta) jeb var(--k5) mainīgā krāsu */
 input[type=date]::-webkit-calendar-picker-indicator {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="purple" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
     cursor: pointer;
 }
 
+/* Ikona ar purple (violeta) jeb var(--k5) mainīgā krāsu */
 input[type=time]::-webkit-calendar-picker-indicator {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="purple" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M0 0h24v24H0z" fill="none"/><path fill="purple" d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>');
     cursor: pointer;
@@ -80,14 +90,14 @@ input:-webkit-autofill {
 /* Pogu noformējums: */
 .btn {
     color: white;
-    background: purple;
-    border: 1px solid purple;
+    background: var(--k5);
+    border: 1px solid var(--k5);
 }
 
 .btn:hover {
-    color: purple;
+    color: var(--k5);
     background: white;
-    border: 1px solid purple;
+    border: 1px solid var(--k5);
 }
 
 
@@ -97,8 +107,8 @@ input:-webkit-autofill {
 }
 
 #pārslēgt-ikonu {
-    border: 1px solid purple;
-    background: purple;
+    border: 1px solid var(--k5);
+    background: var(--k5);
 }
 
 /* Ikona maina izskatu, kad tai novieto kursoru virsū: */
@@ -107,7 +117,7 @@ input:-webkit-autofill {
 }
 
 #pārslēgt-ikonu:hover #ikona {
-    color: purple;
+    color: var(--k5);
 }
 
 
@@ -137,8 +147,9 @@ input:-webkit-autofill {
     margin: 0;
     padding: 0;
     padding-left: 10px;
-    color: purple;
+    color: var(--k5);
     font-weight: bold;
+    z-index: 1;
 }
 
 #navigācijas_joslas_pārslēdzējs {
@@ -176,7 +187,7 @@ input:-webkit-autofill {
 .navbar-text {
     margin-bottom: 0;
     text-align: center;
-    color: purple;
+    color: var(--k5);
 }
 
 
@@ -190,13 +201,17 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: purple;
+    background: var(--k5);
 }
 
 
 /* Tabulu noformējums: */
 .table td, tr {
     text-align: center;
+}
+
+.table td {
+    background: var(--k8);
 }
 
 
@@ -216,7 +231,7 @@ input[type=number] {
 
 /* Bilžu augšupielāde un apskate: */
 .blizu_apskata_bilde {
-    border: 2px solid purple;
+    border: 2px solid var(--k5);
     background: white;
 }
 
@@ -273,7 +288,7 @@ input[type=number] {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgb(128, 0, 128, 0.7); /* purple (violets) */
+    background: rgb(128, 0, 128, 0.7); /* purple (violeta) jeb var(--k5) mainīgā krāsa */
     transform: scale(0);
     color: white;
     display: flex;
@@ -293,7 +308,7 @@ input[type=number] {
 
 .blizu_apskata_bilde:hover + .bildes_aizversana {
     transform: scale(1);
-    border-color: purple;
+    border-color: var(--k5);
 }
 
 .bilzu_galerijas_bildes_lejupielade:hover, .bildes_aizversana:hover {
@@ -334,7 +349,7 @@ input[type=number] {
 
 #liela_profila_bilde:hover + #augsupieladet_profila_bildi_poga {
     transform: scale(1);
-    border-color: purple;
+    border-color: var(--k5);
 }
 
 #augsupieladet_profila_bildi_poga:hover {
@@ -352,4 +367,8 @@ input[type=number] {
 h1 {
     text-align: center;
     margin-top: 8px;
+}
+
+textarea {
+    resize: none;
 }

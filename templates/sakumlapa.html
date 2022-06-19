@@ -42,32 +42,35 @@
 
         <div class="mb-3">
             {% for fotografa_apraksts in fotografu_apraksti %}
-            <div class="mb-3 fotografa_informacijas_apskate">
-                <h1>{{ fotografa_apraksts.lietotajs.vards }} {{ fotografa_apraksts.lietotajs.uzvards }}</h1>
+                <div class="mb-3 fotografa_informacijas_apskate">
+                    <h4>Informācija par fotogrāfu ({{ fotografa_apraksts.lietotajs.vards }} {{ fotografa_apraksts.lietotajs.uzvards }})</h4>
 
-                <h4>Kontaktinformācija</h4>
-                <div class="mb-3">
-                    <label class="form-label">E-pasts</label>
-                    <input readonly value="{{ fotografa_apraksts.lietotajs.epasts }}" class="form-control" style="background: var(--k4);"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Telefona numurs</label>
-                    <input readonly value="{{ fotografa_apraksts.lietotajs.telefona_numurs }}" class="form-control" style="background: var(--k4);"/>
-                </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-12 col-sm-12 col-lg-4">
+                            <div class="mb-3">
+                                <label class="form-label">E-pasts</label>
+                                <input readonly value="{{ fotografa_apraksts.lietotajs.epasts }}" class="form-control" style="background: var(--k4);"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Telefona numurs</label>
+                                <input readonly value="{{ fotografa_apraksts.lietotajs.telefona_numurs }}" class="form-control" style="background: var(--k4);"/>
+                            </div>
 
-                <div class="mb-3">
-                    <div class="mb-3">
-                        <img class="img-thumbnail rounded" src="{{ fotografa_apraksts.lietotajs.profila_bilde.url }}" alt="Fotogrāfa bilde">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Apraksts</label>
-                        <textarea readonly class="form-control" style="background: var(--k4);">{{ fotografa_apraksts.apraksts }}</textarea>
+                            <div class="md-3">
+                                <div class="mb-3">
+                                    <img class="img-thumbnail rounded" src="{{ fotografa_apraksts.lietotajs.profila_bilde.url }}" alt="Fotogrāfa bilde">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-12 col-sm-12 col-lg-8">
+                            <label class="form-label">Apraksts</label>
+                            <textarea readonly class="form-control" style="background: var(--k4); height: calc(100% - 28px);">{{ fotografa_apraksts.apraksts }}</textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
-
     </div>
 
     <!-- Pakalpojuma aprakstam (izsauc funkciju, kad pārmaina izvēlnes vērtību): -->
@@ -111,8 +114,6 @@
         const izveles_lauks = document.getElementById("id_pakalpojuma_veids");
 
         function PakalpojumaAprakstaIespejas() {
-            console.log(pakalpojumu_apraksti);
-
             pakalpojumu_apraksti.forEach(function(pakalpojums) {
                 let izvele = new Option(pakalpojums.pk, pakalpojums.pk);
                 izveles_lauks.add(izvele, undefined);
@@ -123,5 +124,21 @@
         }
 
         window.onload = PakalpojumaAprakstaIespejas();
+    </script>
+
+    <!-- Garā teksta lauka augstuma jeb līniju iestatīšana: -->
+    <script>
+        const teksta_lauks = document.getElementById("pakalpojuma_apraksts");
+        const pakalpojuma_veids = document.getElementById("id_pakalpojuma_veids");
+
+         function TekstaLaukaAugstums() {
+            var teksts = teksta_lauks.value;
+            var linijas = teksts.split("\n");
+            const skaits = linijas .length;
+            teksta_lauks.rows = skaits;
+         }
+
+        pakalpojuma_veids.addEventListener("change", TekstaLaukaAugstums);
+        window.onload = TekstaLaukaAugstums();
     </script>
 {% endblock %}
