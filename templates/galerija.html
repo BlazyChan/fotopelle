@@ -11,16 +11,18 @@
 
         {% if ir_fotografs %}
             <div id="bilzu_augsupielades_bloks">
-                <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/*" style="display: none;">
-                <button type="button" class="btn" id="augsupieladet_poga">Augšupielādēt bildes</button>
-                <button type="button" class="btn" id="nonemt_poga">Izņemt visas bildes</button>
-                <button type="button" class="btn" id="sablabat_poga" onclick="SutitBildes()">Saglabāt</button>
+                <input id="bilzu_augsupielade" type="file" maxlength="32" name="bildes" multiple accept="image/png, image/jpg, image/jpeg" style="display: none;">
+                <div style="width: 100%; display: flex; margin-bottom: 6px;">
+                    <button type="button" class="btn" id="augsupieladet_poga" style="width: 33%; margin-right: 6px;">Augšupielādēt bildes</button>
+                    <button type="button" class="btn" id="nonemt_poga" style="width: 33%; margin-right: 6px;">Izņemt visas bildes</button>
+                    <button type="button" class="btn" id="sablabat_poga" style="width: 33%;" onclick="SutitBildes()">Saglabāt</button>
+                </div>
                 <div id="bilzu_apskats"></div>
             </div>
         {% endif %}
 
         {% if pasa_bildes %}
-            <a href="{% url 'izdzēst bildes' id %}" class="btn">Izdzēst bildes</a>
+            <a href="{% url 'izdzēst bildes' id %}" class="btn" style="width: 100%;">Izdzēst galerijā esošās bildes</a>
         {% endif %}
 
         <p>Bilžu skaits: <strong>{{ skaits }}</strong></p>
@@ -79,6 +81,7 @@
                             // Izveido jaunu div tagu:
                             var div = document.createElement("div");
                             div.setAttribute("class", "blizu_apskata_bildes_lauks");
+                            div.style = "display:inline-block;";
                             bilzu_apskats.appendChild(div);
 
 
@@ -87,6 +90,7 @@
                             bilde.src = this.result;
                             bilde.classList = "blizu_apskata_bilde rounded";
                             bilde.height = 100;
+                            bilde.style = "display:inline-block;";
                             div.appendChild(bilde);
 
                             // Pievieno bildi sarakstam:
@@ -95,7 +99,8 @@
                             // Izveido jaunu pogu bildei:
                             var poga = document.createElement("button");
                             poga.type = "button";
-                            poga.classList = "btn-close";
+                            poga.innerHTML = "X";
+                            poga.classList = "bildes_aizversana rounded";
                             poga.setAttribute("onclick", "IzdzestBildi(this)")
                             div.appendChild(poga);
                         });

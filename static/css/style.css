@@ -138,7 +138,7 @@ input:-webkit-autofill {
 }
 
 .navbar-brand {
-    text-align: center;
+    text-align: left;
     margin: 0;
     padding: 0;
     padding-left: 10px;
@@ -271,7 +271,7 @@ input[type=number] {
     cursor: pointer;
 }
 
-.bilzu_galerijas_bildes_lejupielade, .bildes_aizversana {
+.bilzu_galerijas_bildes_lejupielade, .bildes_aizversana, #augsupieladet_profila_bildi_poga {
     text-decoration: none;
     position: absolute;
     top: 0;
@@ -307,7 +307,54 @@ input[type=number] {
 }
 
 
+/* Profila bildes augšupielādes noformēšana: */
+#liela_profila_bilde {
+    object-fit: cover;
+    aspect-ratio: 1 / 1; /* kvadrāts */
+    width: 210px;
+    height: calc(100% - 16px);
+    padding-left: 0;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+    .profila_bildes_redigesna {
+        flex: 0 0 auto;
+        height: 100%;
+        width: 100% !important;
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    #liela_profila_bilde {
+        width: 100% !important;
+    }
+
+    .profila_teksta_redigesna {
+        flex: 0 0 auto;
+        width: 100% !important;
+        padding-right: 12px !important;
+    }
+}
+
+#liela_profila_bilde:hover + #augsupieladet_profila_bildi_poga {
+    transform: scale(1);
+    border-color: purple;
+}
+
+#augsupieladet_profila_bildi_poga:hover {
+    transform: scale(1);
+}
+
+#augsupieladet_profila_bildi_poga {
+    border-style: none;
+    text-align: center;
+    padding-top: 16px;
+}
+
+
 /* Pārējais noformējums: */
 h1 {
     text-align: center;
+    margin-top: 8px;
 }

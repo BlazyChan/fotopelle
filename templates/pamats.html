@@ -48,7 +48,7 @@
         </div>
 
         {% if user.is_authenticated %}
-            <img style="margin-right: 10px;" class="rounded" id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
+            <img style="margin-right: 10px; object-fit: cover;" class="rounded" id="nav-profila-bilde" width="40" height="40" src="/media/{{ user.profila_bilde }}" alt="">
             <p style="padding-right: 10px;" id="nav-profila-vards" class="navbar-text">{{ user.vards }}</p>
         {% endif %}
 
