@@ -20,6 +20,79 @@
         {% endif %}
 
         <h1>Sākums</h1>
+
+        <div class="pakalpojuma_apraksta_grupa mb-3">
+            <div class="mb-3">
+                <label class="form-label">Pakalpojuma veids</label>
+                <select name="pakalpojuma_veids" class="form-control" onchange="PakalpojumaApraksts();" id="id_pakalpojuma_veids"></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
+                <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none; background: var(--k4);"></textarea>
+            </div>
+
+            <label class="form-label" id="pakalpojuma_cenas_virsraksts" style="display: none;"></label>
+            <div class="input-group mb-3">
+                <input readonly class="form-control" id="pakalpojuma_cena" style="display: none; background: var(--k4);"/>
+                <span class="input-group-text naudas_zime">€</span>
+            </div>
+        </div>
+
     </div>
 
+    <!-- Pakalpojuma aprakstam (izsauc funkciju, kad pārmaina izvēlnes vērtību): -->
+    <script>
+        function PakalpojumaApraksts() {
+            var pakalpojuma_veids = document.getElementById("id_pakalpojuma_veids").value;
+
+            document.getElementById("pakalpojuma_apraksta_virsraksts").style = "display: block;";
+            document.getElementById("pakalpojuma_cenas_virsraksts").style = "display: block;";
+            document.getElementById("pakalpojuma_apraksts").style = "display: block; background: var(--k4);";
+            document.getElementById("pakalpojuma_cena").style = "display: block; background: var(--k4);";
+
+            var pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
+
+            pakalpojumu_apraksti.forEach(function(pakalpojuma_apraksts) {
+                if (pakalpojuma_apraksts.pk == pakalpojuma_veids) {
+                    apraksts = pakalpojuma_apraksts.fields.apraksts;
+                    cena = pakalpojuma_apraksts.fields.cena;
+                }
+            });
+
+            var pedejais_burts = pakalpojuma_veids.charAt(pakalpojuma_veids.length - 1);
+            if (pedejais_burts != "s") {
+                pakalpojuma_veids = pakalpojuma_veids + "s";
+            }
+            pakalpojuma_veids = pakalpojuma_veids + " apraksts:";
+            cenas_virsraksts = "Cena:";
+
+            document.getElementById("pakalpojuma_apraksta_virsraksts").innerHTML = pakalpojuma_veids;
+            document.getElementById("pakalpojuma_apraksts").innerHTML = apraksts;
+            document.getElementById("pakalpojuma_cenas_virsraksts").innerHTML = cenas_virsraksts;
+            document.getElementById("pakalpojuma_cena").value = cena;
+        }
+
+        window.onload = PakalpojumaApraksts();
+    </script>
+
+    <!-- Papildus skripts, lai iegūtu pakalpojuma veidu izvēles iespējas: -->
+    <script>
+        const pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
+        const izveles_lauks = document.getElementById("id_pakalpojuma_veids");
+
+        function PakalpojumaAprakstaIespejas() {
+            console.log(pakalpojumu_apraksti);
+
+            pakalpojumu_apraksti.forEach(function(pakalpojums) {
+                let izvele = new Option(pakalpojums.pk, pakalpojums.pk);
+                izveles_lauks.add(izvele, undefined);
+            });
+
+            // Izsauc otru skriptu, lai izvēlētajam (pirmajam) pakalpojuma veidam būtu parādījies apraksts un cena:
+            PakalpojumaApraksts();
+        }
+
+        window.onload = PakalpojumaAprakstaIespejas();
+    </script>
 {% endblock %}

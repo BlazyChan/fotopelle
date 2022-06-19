@@ -20,7 +20,17 @@ gala_galerija = None
 
 # Sākumlapa (pirmā lapa, ko redz atverot mājaslapu):
 def sakumlapa(request):
-    return render(request, 'sakumlapa.html', {})
+    # Tiek iegūti pakalpojuma nosaukumi, apraksti un cenas:
+    pakalpojumu_apraksti = PakalpojumaVeids.objects.filter()
+    # Pārveido modeli par JSON simbolu virkni:
+    pakalpojumu_apraksti = serializers.serialize("json", pakalpojumu_apraksti, cls=DjangoJSONEncoder)
+
+    # Tiek iegūta informācija par fotogrāfiem (paigaidām vienu):
+    fotografu_apraksti = Fotografs.objects.filter()
+    # Pārveido modeli par JSON simbolu virkni:
+    fotografu_apraksti = serializers.serialize("json", fotografu_apraksti, cls=DjangoJSONEncoder)
+
+    return render(request, 'sakumlapa.html', {"pakalpojumu_apraksti": pakalpojumu_apraksti, "fotografu_apraksti": fotografu_apraksti})
 
 
 # Lapa, kur lietotājs var veikt pasūtījumus, jeb pasūtīt pakalpojumus:

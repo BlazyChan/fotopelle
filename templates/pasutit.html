@@ -46,12 +46,12 @@
             <div class="pakalpojuma_apraksta_grupa mb-3">
                 <div class="mb-3">
                     <label class="form-label" id="pakalpojuma_apraksta_virsraksts" style="display: none;"></label>
-                    <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="background: lightblue; display: none;"></textarea>
+                    <textarea readonly class="form-control" id="pakalpojuma_apraksts" style="display: none; background: var(--k4);"></textarea>
                 </div>
 
                 <label class="form-label" id="pakalpojuma_cenas_virsraksts" style="display: none;"></label>
                 <div class="input-group mb-3">
-                    <input readonly class="form-control" id="pakalpojuma_cena" style="background: lightblue; display: none;"/>
+                    <input readonly class="form-control" id="pakalpojuma_cena" style="display: none; background: var(--k4);"/>
                     <span class="input-group-text naudas_zime">€</span>
                 </div>
 
@@ -97,8 +97,8 @@
 
             document.getElementById("pakalpojuma_apraksta_virsraksts").style = "display: block;";
             document.getElementById("pakalpojuma_cenas_virsraksts").style = "display: block;";
-            document.getElementById("pakalpojuma_apraksts").style = "display: block; background: lightblue;";
-            document.getElementById("pakalpojuma_cena").style = "display: block; background: lightblue;";
+            document.getElementById("pakalpojuma_apraksts").style = "display: block; background: var(--k4);";
+            document.getElementById("pakalpojuma_cena").style = "display: block; background: var(--k4);";
 
             var pakalpojumu_apraksti = {{ pakalpojumu_apraksti|safe }};
 

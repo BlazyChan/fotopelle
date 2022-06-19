@@ -21,7 +21,7 @@
 
         <h1>Rediģēt profilu</h1>
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="profila_redigesanas_veidlapa" onsubmit="console.log('BRUUH');">
             {% csrf_token %}
 
             <div class="row justify-content-md-center">
@@ -54,7 +54,7 @@
             </div>
             <div style="width: 100%; display: flex; margin-bottom: 6px;">
                 <button type="submit" class="btn" style="width: 50%; margin-right: 6px;">Saglabāt izmaiņas</button>
-                <button type="button" class="btn" onclick="location.reload();" style="width: 50%;">Atcelt</button>
+                <button id="atcelt_poga" type="button" class="btn" onclick="location.reload();" style="width: 50%;">Atcelt</button>
             </div>
 
         </form>
@@ -76,9 +76,27 @@
                 var bildes_url = new FileReader();
                 bildes_url.addEventListener("load", function() {
                     liela_profila_bilde.src = this.result;
+                    localStorage.setItem("jauna_bilde", this.result);
                 });
                 bildes_url.readAsDataURL(bilde);
             }
         });
+
+        // Izmaiņu atcelšanas gadījumā tiek izdzēsta lokāli saglabātā (jaunā) profila bilde, ja tāda eksistē:
+        var atcelt_poga = document.getElementById("atcelt_poga");
+        atcelt_poga.addEventListener("click", function() {
+            if (localStorage.getItem("jauna_bilde")) {
+                localStorage.removeItem("jauna_bilde");
+            }
+        });
+
+        // Pārbauda vai ir augšupielādēta jauna bilde, kura nav saglabāta:
+        function LapasAtversana() {
+            if (localStorage.getItem("jauna_bilde")) {
+                liela_profila_bilde.src = localStorage.getItem("jauna_bilde");
+            }
+        }
+
+        window.onload = LapasAtversana();
     </script>
 {% endblock %}

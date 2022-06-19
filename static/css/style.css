@@ -1,26 +1,21 @@
 /* Krāsu noformējums (piemērs, kā lietot - "var(--krāsa)"): */
 :root {
-    --t1: #1B2D06;
-    --t2: #201E02;
-
-    --e1: ;
-    --e2: ;
-    --e3: ;
-
-    --b1: #FCFBED;
-    --b2: #DBEE5C;
+    --k1: Red;
+    --k2: Blue;
+    --k3: Yellow;
+    --k4: Lightblue;
 }
 
 h1, label, strong, th {
-    color: red;
+    color: var(--k1);
 }
 
 td, p {
-    color: blue;
+    color: var(--k2);
 }
 
 .table {
-    --bs-table-hover-color: yellow;
+    --bs-table-hover-color: var(--k3);
     --bs-table-hover-bg: white;
 }
 
@@ -31,14 +26,14 @@ td, p {
 
 /*
 .img-thumbnail:hover {
-    border: 3px solid yellow;
+    border: 3px solid var(--k3);
 }
 */
 
 .naudas_zime {
-    color: blue;
-    background: lightblue;
-    border: 1px solid blue;
+    color: var(--k2);
+    background: var(--k4);
+    border: 1px solid var(--k2);
 }
 
 .tabulas_galvene {
@@ -52,8 +47,8 @@ td, p {
 
 /* Veidlapu un ievades lauku noformējums: */
 .form-control, .form-control:focus {
-    color: blue;
-    border-color: blue;
+    color: var(--k2);
+    border-color: var(--k2);
     box-shadow: none;
 }
 
@@ -77,7 +72,7 @@ input[type=time], input[type=date] {
 }
 
 input:-webkit-autofill {
-    -webkit-text-fill-color: blue;
+    -webkit-text-fill-color: var(--k2);
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
@@ -118,7 +113,7 @@ input:-webkit-autofill {
 
 /* Navigācijas joslas noformējums: */
 .navbar-nav .nav-link.active {
-    color: red;
+    color: var(--k1);
 }
 
 .navbar {
@@ -130,11 +125,11 @@ input:-webkit-autofill {
 }
 
 .navbar .navbar-nav .nav-link:hover {
-    color: yellow;
+    color: var(--k3);
 }
 
 .navbar-brand:hover {
-    color: yellow;
+    color: var(--k3);
 }
 
 .navbar-brand {
@@ -175,7 +170,7 @@ input:-webkit-autofill {
 }
 
 .nav-link {
-    color: blue;
+    color: var(--k2);
 }
 
 .navbar-text {
@@ -191,7 +186,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-    background: blue;
+    background: var(--k2);
 }
 
 body::-webkit-scrollbar-thumb {
@@ -227,7 +222,7 @@ input[type=number] {
 
 /*
 .blizu_apskata_bilde:hover {
-    border: 2px solid yellow;
+    border: 2px solid var(--k3);
 }
 */
 
