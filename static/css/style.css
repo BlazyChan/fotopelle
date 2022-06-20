@@ -372,3 +372,9 @@ h1 {
 textarea {
     resize: none;
 }
+
+.fotografa_bilde {
+    object-fit: cover;
+    aspect-ratio: 1 / 1; /* kvadrāts */
+    cursor: pointer;
+}
