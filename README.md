@@ -66,3 +66,13 @@ Izveidoto lietotāju pieslēgšanās informācija pēc lomām:
 *	**Klients** ar e-pastu - **janis.bebsis@fotopelle.lv** un paroli - **Parole123**
 *	**Fotogrāfs** ar e-pastu - **peteris.mantons@fotopelle.lv** un paroli - **Parole123**
 * **Administrators** ar e-pastu - **admin@fotopelle.lv** un paroli - **Parole123**
+
+Instalācija ar Python virtual environment:
+1. Lejupielādēt github failus izmantojot komandu:
+```git clone https://github.com/BlazyChan/fotopelle.git```
+2. Izmantojot komandu mapitē, kur ir manage.py fails:
+```python -m pip install --upgrade pip```
+3. ```python -m venv **{{path}}**\venv```
+4. ```{{path}}\venv\Scripts\activate```
+5. ```python -m pip install -r requirements.txt```
+6. ```python manage.py runserver```
