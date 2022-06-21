@@ -53,7 +53,7 @@ def pasutit(request):
 
                 # Izveido jaunu bilžu galeriju:
                 gala_galerija = BilzuGalerija.objects.create(
-                    nosaukums=str(instance.pakalpojuma_veids) + " - " + request.user.vards + " " + request.user.uzvards + " (" + str(instance.pasutijuma_datums) + ")", pasutijums=instance)
+                    nosaukums=str(instance.pakalpojuma_veids) + " - " + instance.lietotajs.vards + " " + instance.lietotajs.uzvards + " (" + str(instance.pasutijuma_datums) + ")", pasutijums=instance)
 
                 # Veiksmīga pasūtījuma izveidošanas gadījumā - lietotāju aizved uz norādīto lapu un izvada ziņu:
                 messages.success(request, "Pasūtījums tika veiksmīgi izveidots!")
@@ -140,7 +140,7 @@ def bilzu_galerijas_saite(request, id):
                                                          size=sys.getsizeof(f), charset=None)
                             # Izveido bildes objektu:
                             Bilde.objects.create(
-                                atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(request.user.epasts.replace("@", "_")),
+                                atrasanas_vieta=str('lietotajs_{0}/{1}/'.format(str(pasutijums.lietotajs.epasts.replace("@", "_")),
                                                                                 str(bilzu_galerija.id) + "_" + str(
                                                                                     bilzu_galerija.nosaukums))),
                                 fails=bilde,

@@ -131,7 +131,7 @@ class BilzuGalerijaAdmin(admin.ModelAdmin):
 
     # Pārveido tekstu, kas ir virs tabulas administratora lapā:
     def changelist_view(self, request, extra_context=None):
-        virsraksts = {"title": "Atlasiet bilžu galeriju vai vairākus bilžu galerijas, lai tās mainītu"}
+        virsraksts = {"title": "Atlasiet bilžu galeriju vai vairākas bilžu galerijas, lai tās mainītu"}
         return super().changelist_view(request, extra_context=virsraksts)
 
     # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:
@@ -169,7 +169,7 @@ class BildeAdmin(admin.ModelAdmin):
 
     # Pārveido tekstu, kas ir virs tabulas administratora lapā:
     def changelist_view(self, request, extra_context=None):
-        virsraksts = {"title": "Atlasiet bildi vai vairākus bildes, lai tās mainītu"}
+        virsraksts = {"title": "Atlasiet bildi vai vairākas bildes, lai tās mainītu"}
         return super().changelist_view(request, extra_context=virsraksts)
 
     # Pārveido tekstu, kas ir virs jauna ieraksta izveides laukiem administratora lapā:

@@ -90,7 +90,13 @@ class BilzuGalerija(models.Model):
             lietotajs = pasutijums.lietotajs
             lietotaja_profila_mapes_cels = lietotaja_profila_bildes_cels(lietotajs, filename="").split("/")[0]
             # Tiek izdzēsta bilžu galerijas mapīte:
-            shutil.rmtree(str(MEDIA_ROOT) + "\\" + lietotaja_profila_mapes_cels + "\\" + str(instance.id) + "_" + str(instance.nosaukums))
+            try:
+                bilzu_galerija = str(MEDIA_ROOT) + "/" + lietotaja_profila_mapes_cels + "/" + str(
+                    instance.id) + "_" + str(
+                    instance.nosaukums)
+                shutil.rmtree(bilzu_galerija)
+            except:
+                pass
 
     # Izvada cik dienas ir palikušas līdz galerijas izdzēšanai (30 dienas no galerrijas izveidošanas datuma):
     @property
@@ -127,7 +133,11 @@ class Bilde(models.Model):
     def izdzest_galerijas_mapi(instance, *args, **kwargs):
         if type(instance) == Bilde:
             # Tiek izdzēsta bilde no galerijas mapītes:
-            os.remove(str(MEDIA_ROOT) + "\\" + str(instance.fails))
+            try:
+                galerijas_bilde = str(MEDIA_ROOT) + "/" + str(instance.fails)
+                os.remove(galerijas_bilde)
+            except:
+                pass
 
     # Pēc ieraksta saglabāšanas izdzēš bildes atrašanās vietas lauku, jo tas vairs nav vajadzīgs un bilžu galerijai pārmaina datumu uz tagadējo datumu un laiku:
     def save(self, *args, **kwargs):

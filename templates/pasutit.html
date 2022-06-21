@@ -26,7 +26,7 @@
             {% csrf_token %}
 
             <div class="mb-3">
-                <label for="{{ form.pasutijuma_datums.id_for_label }}" class="form-label">Pasūtījuma datums</label>
+                                                                <label for="{{ form.pasutijuma_datums.id_for_label }}" class="form-label">Pasūtījuma datums</label>
                 {{ form.pasutijuma_datums }}
                 {{ form.errors.pasutijuma_datums }}
             </div>
@@ -221,6 +221,7 @@
                 mode: 'same-origin',
                 data: {
                     'django_bildes[]': django_bildes,
+                    '': ,
                 },
             });
         }
